@@ -48,13 +48,20 @@ namespace PhotoOrg
             {
                 if (!Directory.Exists(order.Text + " - " + name.Text))
                     Directory.CreateDirectory(order.Text + " - " + name.Text);
-                if (!File.Exists(order.Text + " - " + name.Text + "/" + order.Text + " - " + name.Text + " " + files + ".jpg"))
-                    File.Copy(openFileDialog1.FileNames[files], order.Text + " - " + name.Text + "/" + order.Text + " - " + name.Text + " " + files + ".jpg");
+                if (!File.Exists(order.Text + " - " + name.Text + "/" + order.Text + " - " + name.Text + " - " + ( files + 1 ) + ".jpg"))
+                    File.Copy(openFileDialog1.FileNames[files], order.Text + " - " + name.Text + "/" +  name.Text + " - " + ( files + 1 ) + ".jpg");
                 files++;
             }
 
+            string job = "Job # " + order.Text + " for  " + name.Text + " started, " + files + " files moved ";
+            List<string> jobs = new List<string>();
+            jobs.Add(job);
+
             string[] info = { "Name: " + name.Text, "Phone: " + phone.Text, "Order #: " + order.Text, "E-Mail: " + email.Text, "Address: " + address.Text, "Prints: " + prints.Text };
-            File.WriteAllLines(order.Text + " - " + name.Text + "/" + order.Text + " - " + name.Text + ".txt", info);
+            File.WriteAllLines(order.Text + " - " + name.Text + "/" + "Order info for " + " " + name.Text + ".txt", info);
+
+            jobs.ToArray();
+            File.AppendAllLines("jobs.txt", jobs);
 
             MessageBox.Show("Done!");
         }
@@ -78,7 +85,16 @@ namespace PhotoOrg
                 {
                     files++;
                 }
-                browse.Text = files + " file(s) loaded!";
+                if (files == 1)
+                {
+                    browse.Text = files + " file loaded!";
+                }
+                else
+                {
+                    browse.Text = files + " files loaded!";
+                }
+
+                save.Enabled = true;
             }
         }
 
