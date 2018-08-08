@@ -44,6 +44,7 @@
             this.exit = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.browse = new System.Windows.Forms.Button();
+            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             ((System.ComponentModel.ISupportInitialize)(this.prints)).BeginInit();
             this.SuspendLayout();
             // 
@@ -94,7 +95,7 @@
             this.prints.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.prints.Font = new System.Drawing.Font("Arial", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.prints.ForeColor = System.Drawing.Color.White;
-            this.prints.Location = new System.Drawing.Point(408, 286);
+            this.prints.Location = new System.Drawing.Point(407, 295);
             this.prints.Name = "prints";
             this.prints.Size = new System.Drawing.Size(53, 37);
             this.prints.TabIndex = 5;
@@ -105,7 +106,7 @@
             this.prints_l.AutoSize = true;
             this.prints_l.Font = new System.Drawing.Font("Arial", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.prints_l.ForeColor = System.Drawing.Color.White;
-            this.prints_l.Location = new System.Drawing.Point(12, 288);
+            this.prints_l.Location = new System.Drawing.Point(12, 299);
             this.prints_l.Name = "prints_l";
             this.prints_l.Size = new System.Drawing.Size(132, 33);
             this.prints_l.TabIndex = 9;
@@ -119,12 +120,14 @@
             this.mail.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.mail.Font = new System.Drawing.Font("Arial", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mail.ForeColor = System.Drawing.Color.DimGray;
-            this.mail.Location = new System.Drawing.Point(13, 382);
+            this.mail.Location = new System.Drawing.Point(12, 395);
             this.mail.Name = "mail";
-            this.mail.Size = new System.Drawing.Size(80, 43);
+            this.mail.Size = new System.Drawing.Size(79, 43);
             this.mail.TabIndex = 7;
-            this.mail.Text = "mail";
+            this.mail.Text = "jobs";
+            this.mail.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.mail.UseVisualStyleBackColor = true;
+            this.mail.CheckedChanged += new System.EventHandler(this.mail_CheckedChanged);
             // 
             // email
             // 
@@ -160,7 +163,7 @@
             this.save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.save.Font = new System.Drawing.Font("Arial", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.save.ForeColor = System.Drawing.Color.White;
-            this.save.Location = new System.Drawing.Point(239, 382);
+            this.save.Location = new System.Drawing.Point(240, 396);
             this.save.Name = "save";
             this.save.Size = new System.Drawing.Size(221, 42);
             this.save.TabIndex = 8;
@@ -189,12 +192,13 @@
             // 
             // exit
             // 
+            this.exit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.exit.BackColor = System.Drawing.Color.Crimson;
             this.exit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.exit.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.exit.Location = new System.Drawing.Point(451, 1);
+            this.exit.Location = new System.Drawing.Point(438, 12);
             this.exit.Name = "exit";
-            this.exit.Size = new System.Drawing.Size(20, 20);
+            this.exit.Size = new System.Drawing.Size(22, 22);
             this.exit.TabIndex = 11;
             this.exit.UseVisualStyleBackColor = false;
             this.exit.Click += new System.EventHandler(this.exit_Click);
@@ -209,7 +213,7 @@
             this.browse.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.browse.Font = new System.Drawing.Font("Arial", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.browse.ForeColor = System.Drawing.Color.White;
-            this.browse.Location = new System.Drawing.Point(14, 334);
+            this.browse.Location = new System.Drawing.Point(13, 347);
             this.browse.Name = "browse";
             this.browse.Size = new System.Drawing.Size(447, 42);
             this.browse.TabIndex = 6;
@@ -217,13 +221,26 @@
             this.browse.UseVisualStyleBackColor = false;
             this.browse.Click += new System.EventHandler(this.browse_Click);
             // 
+            // checkedListBox1
+            // 
+            this.checkedListBox1.BackColor = System.Drawing.Color.Black;
+            this.checkedListBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.checkedListBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkedListBox1.ForeColor = System.Drawing.Color.White;
+            this.checkedListBox1.FormattingEnabled = true;
+            this.checkedListBox1.Location = new System.Drawing.Point(476, 126);
+            this.checkedListBox1.Name = "checkedListBox1";
+            this.checkedListBox1.Size = new System.Drawing.Size(441, 312);
+            this.checkedListBox1.TabIndex = 12;
+            // 
             // PhotoOrg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(472, 436);
+            this.ClientSize = new System.Drawing.Size(472, 450);
+            this.Controls.Add(this.checkedListBox1);
             this.Controls.Add(this.exit);
             this.Controls.Add(this.logo);
             this.Controls.Add(this.save);
@@ -263,6 +280,7 @@
         private System.Windows.Forms.Button exit;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button browse;
+        private System.Windows.Forms.CheckedListBox checkedListBox1;
     }
 }
 

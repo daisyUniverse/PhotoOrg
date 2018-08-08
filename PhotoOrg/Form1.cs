@@ -53,7 +53,7 @@ namespace PhotoOrg
                 files++;
             }
 
-            string job = "Job # " + order.Text + " for  " + name.Text + " started, " + files + " files moved ";
+            string job = "Job #" + order.Text + " for " + name.Text + " : " + files + " files";
             List<string> jobs = new List<string>();
             jobs.Add(job);
 
@@ -61,9 +61,18 @@ namespace PhotoOrg
             File.WriteAllLines(order.Text + " - " + name.Text + "/" + "Order info for " + " " + name.Text + ".txt", info);
 
             jobs.ToArray();
+            checkedListBox1.Items.Add(job);
             File.AppendAllLines("jobs.txt", jobs);
 
             MessageBox.Show("Done!");
+            openFileDialog1.Reset();
+            browse.Text = "browse";
+            name.Text = "name";
+            address.Text = "address";
+            email.Text = "email";
+            phone.Text = "phone";
+            order.Text = "order number";
+            save.Enabled = false;
         }
 
         private void logo_Click(object sender, EventArgs e)
@@ -112,6 +121,11 @@ namespace PhotoOrg
             int B = rand.Next(100, 200);
             logo.ForeColor = Color.FromArgb(A, R, G, B);
             timer1.Start();
+        }
+
+        private void mail_CheckedChanged(object sender, EventArgs e)
+        {
+            if (mail.Checked){ PhotoOrg.ActiveForm.Width = 930; } else { PhotoOrg.ActiveForm.Width = 472; }
         }
     }
 }
