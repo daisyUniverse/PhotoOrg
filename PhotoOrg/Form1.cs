@@ -12,10 +12,8 @@ using System.Runtime.InteropServices;
 
 namespace PhotoOrg
 {
-
     public partial class PhotoOrg : Form
     {
-
         public PhotoOrg()
         {
             InitializeComponent();
@@ -65,8 +63,6 @@ namespace PhotoOrg
         {
             timer1.Start();
         }
-
-
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
