@@ -17,6 +17,22 @@ namespace PhotoOrg
         public PhotoOrg()
         {
             InitializeComponent();
+            int count = 0;
+            if (File.Exists("jobs.txt"))
+            {
+                string[] log = File.ReadAllLines("jobs.txt");
+
+                foreach (string file in log)
+                {
+                    checkedListBox1.Items.Add(log[count]);
+                    count++;
+                }
+            }
+            if (File.Exists("header.txt"))
+            {
+                string header = File.ReadAllText("header.txt");
+                logo.Text = header;
+            }
         }
 
         protected override void WndProc(ref Message m)
@@ -55,17 +71,20 @@ namespace PhotoOrg
 
             string job = "Job #" + order.Text + " for " + name.Text + " : " + files + " files";
             List<string> jobs = new List<string>();
+
             jobs.Add(job);
 
-            string[] info = { "Name: " + name.Text, "Phone: " + phone.Text, "Order #: " + order.Text, "E-Mail: " + email.Text, "Address: " + address.Text, "Prints: " + prints.Text };
+            string[] info = { "Name: " + name.Text, "Phone: " + phone.Text, "Order #: " + order.Text, "E-Mail: " + email.Text, "Address: " + address.Text};
             File.WriteAllLines(order.Text + " - " + name.Text + "/" + "Order info for " + " " + name.Text + ".txt", info);
 
             jobs.ToArray();
+
             checkedListBox1.Items.Add(job);
             File.AppendAllLines("jobs.txt", jobs);
 
             MessageBox.Show("Done!");
             openFileDialog1.Reset();
+            openFileDialog1.Multiselect = true;
             browse.Text = "browse";
             name.Text = "name";
             address.Text = "address";
@@ -126,6 +145,7 @@ namespace PhotoOrg
         private void mail_CheckedChanged(object sender, EventArgs e)
         {
             if (mail.Checked){ PhotoOrg.ActiveForm.Width = 930; } else { PhotoOrg.ActiveForm.Width = 472; }
+            
         }
     }
 }
