@@ -1,14 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
 
 namespace PhotoOrg
 {
@@ -17,23 +11,28 @@ namespace PhotoOrg
         public PhotoOrg()
         {
             InitializeComponent();
+
+            // Check for the jobs file, if it's there, add all the recorded jobs to the tracker.
+
             int count = 0;
             if (File.Exists("jobs.txt"))
             {
                 string[] log = File.ReadAllLines("jobs.txt");
-
                 foreach (string file in log)
-                {
-                    checkedListBox1.Items.Add(log[count]);
-                    count++;
-                }
+                {checkedListBox1.Items.Add(log[count]);
+                 count++;}
             }
+
+            // Check for the header file, if it's there, change the header to what's in there.
+
             if (File.Exists("header.txt"))
             {
                 string header = File.ReadAllText("header.txt");
                 logo.Text = header;
             }
         }
+
+            // Magic 'grab the window anywhere to drag' code I nabbed. Don't know how it works, but it does. 
 
         protected override void WndProc(ref Message m)
         {
@@ -46,19 +45,14 @@ namespace PhotoOrg
         private const int HT_CLIENT = 0x1;
         private const int HT_CAPTION = 0x2;
 
-    private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+            // Pressing the 'Save' button
 
         private void button2_Click(object sender, EventArgs e)
         {
             int files = 0;
+
+            // Check to see if the Job # + Name matches any existing folder. If it doesn't proceed to copy
+            // and rename based on user input
 
             foreach (string file in openFileDialog1.FileNames)
             {
@@ -69,18 +63,18 @@ namespace PhotoOrg
                 files++;
             }
 
+            // The retarded amount of effort involved in saving all of that info to a text file / adding it to the job tracker
+
             string job = "Job #" + order.Text + " for " + name.Text + " : " + files + " files";
             List<string> jobs = new List<string>();
-
             jobs.Add(job);
-
             string[] info = { "Name: " + name.Text, "Phone: " + phone.Text, "Order #: " + order.Text, "E-Mail: " + email.Text, "Address: " + address.Text};
             File.WriteAllLines(order.Text + " - " + name.Text + "/" + "Order info for " + " " + name.Text + ".txt", info);
-
             jobs.ToArray();
-
             checkedListBox1.Items.Add(job);
             File.AppendAllLines("jobs.txt", jobs);
+
+            // Copying finished, show confirmation, and reset all parameters to get ready for the next job
 
             MessageBox.Show("Done!");
             openFileDialog1.Reset();
@@ -94,42 +88,27 @@ namespace PhotoOrg
             save.Enabled = false;
         }
 
-        private void logo_Click(object sender, EventArgs e)
-        {
-            timer1.Start();
-        }
+        private void logo_Click(object sender, EventArgs e){timer1.Start();}
 
-        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
-        {
-
-        }
+            // Stuff to show the 'X Files Loaded!' message based on how many files are loaded
 
         private void browse_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 int files = 0;
-                 foreach (string file in openFileDialog1.FileNames)
-                {
-                    files++;
-                }
-                if (files == 1)
-                {
-                    browse.Text = files + " file loaded!";
-                }
-                else
-                {
-                    browse.Text = files + " files loaded!";
-                }
-
+                foreach (string file in openFileDialog1.FileNames){files++;}
+                if (files == 1){browse.Text = files + " file loaded!";}
+                else{browse.Text = files + " files loaded!";}
                 save.Enabled = true;
             }
         }
 
-        private void exit_Click(object sender, EventArgs e)
-        {
-            System.Windows.Forms.Application.Exit();
-        }
+            // I'll make my own exit button, with blackjack, and overused jokes
+
+        private void exit_Click(object sender, EventArgs e){System.Windows.Forms.Application.Exit();}
+
+            // Gay Code Jail
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -141,6 +120,8 @@ namespace PhotoOrg
             logo.ForeColor = Color.FromArgb(A, R, G, B);
             timer1.Start();
         }
+
+            // For showing / hiding the job list
 
         private void mail_CheckedChanged(object sender, EventArgs e)
         {
