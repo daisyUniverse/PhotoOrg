@@ -10,6 +10,7 @@ namespace PhotoOrg
     {
         public PhotoOrg()
         {
+
             InitializeComponent();
 
             // Check for the jobs file, if it's there, add all the recorded jobs to the tracker.
@@ -28,10 +29,10 @@ namespace PhotoOrg
             // Themes. Because that's what this needed. This checks for a settings file, and checks what the current theme set is,
             // and reads the specified filename for color data. I spent an hour on this. Why.
 
-            if (File.Exists("settings/settings.ini"))
+            if (File.Exists("settings/settings.cfg"))
             {
 
-                string[] settingsFile = File.ReadAllLines("settings/settings.ini");
+                string[] settingsFile = File.ReadAllLines("settings/settings.cfg");
                 string theme = settingsFile[3];
                 string themepath = "settings/" + theme + ".ini";
 
@@ -48,6 +49,12 @@ namespace PhotoOrg
                     logo.ForeColor = logoCol;
 
                     this.BackColor = bgCol;
+
+                    if (settings[18] != "none")
+                    {
+                        Image BG = new Bitmap(@"settings/img/" + settings[18] + ".jpg");
+                        this.BackgroundImage = BG;
+                    }
 
                     name.ForeColor = boxTextCol;
                     phone.ForeColor = boxTextCol;

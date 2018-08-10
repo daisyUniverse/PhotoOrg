@@ -148,11 +148,13 @@
             // logo
             // 
             this.logo.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.logo.AutoSize = true;
             this.logo.Font = new System.Drawing.Font("Courier New", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.logo.ForeColor = System.Drawing.Color.Snow;
-            this.logo.Location = new System.Drawing.Point(14, 50);
+            this.logo.Location = new System.Drawing.Point(103, 46);
+            this.logo.Margin = new System.Windows.Forms.Padding(20, 20, 20, 0);
             this.logo.Name = "logo";
-            this.logo.Size = new System.Drawing.Size(447, 39);
+            this.logo.Size = new System.Drawing.Size(281, 39);
             this.logo.TabIndex = 10;
             this.logo.Text = "Elisha.Photo";
             this.logo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
