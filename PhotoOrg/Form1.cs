@@ -25,16 +25,54 @@ namespace PhotoOrg
                 }
             }
 
-            // Check for the header file, if it's there, change the header to what's in there.
+            // Themes. Because that's what this needed. This checks for a settings file, and checks what the current theme set is,
+            // and reads the specified filename for color data. I spent an hour on this. Why.
 
-            if (File.Exists("header.txt"))
+            if (File.Exists("settings/settings.ini"))
             {
-                string header = File.ReadAllText("header.txt");
-                logo.Text = header;
+
+                string[] settingsFile = File.ReadAllLines("settings/settings.ini");
+                string theme = settingsFile[3];
+                string themepath = "settings/" + theme + ".ini";
+
+                if (File.Exists(themepath))
+                {
+                    string[] settings = File.ReadAllLines(themepath);
+                    logo.Text = settingsFile[1];
+
+                    Color logoCol = Color.FromArgb(Convert.ToInt32(settings[2]), Convert.ToInt32(settings[3]), Convert.ToInt32(settings[4]));
+                    Color bgCol = Color.FromArgb(Convert.ToInt32(settings[6]), Convert.ToInt32(settings[7]), Convert.ToInt32(settings[8]));
+                    Color boxTextCol = Color.FromArgb(Convert.ToInt32(settings[10]), Convert.ToInt32(settings[11]), Convert.ToInt32(settings[12]));
+                    Color boxCol = Color.FromArgb(Convert.ToInt32(settings[14]), Convert.ToInt32(settings[15]), Convert.ToInt32(settings[16]));
+
+                    logo.ForeColor = logoCol;
+
+                    this.BackColor = bgCol;
+
+                    name.ForeColor = boxTextCol;
+                    phone.ForeColor = boxTextCol;
+                    order.ForeColor = boxTextCol;
+                    address.ForeColor = boxTextCol;
+                    email.ForeColor = boxTextCol;
+                    browse.ForeColor = boxTextCol;
+                    mail.ForeColor = boxTextCol;
+                    save.ForeColor = boxTextCol;
+                    checkedListBox1.ForeColor = boxTextCol;
+
+                    name.BackColor = boxCol;
+                    phone.BackColor = boxCol;
+                    order.BackColor = boxCol;
+                    address.BackColor = boxCol;
+                    email.BackColor = boxCol;
+                    browse.BackColor = boxCol;
+                    mail.BackColor = boxCol;
+                    save.BackColor = boxCol;
+                    checkedListBox1.BackColor = boxCol;
+                }
             }
         }
 
-        // Magic 'grab the window anywhere to drag' code I nabbed. Don't know how it works, but it does. 
+            // Magic 'grab the window anywhere to drag' code I nabbed. Don't know how it works, but it does. 
 
         protected override void WndProc(ref Message m)
         {
@@ -47,7 +85,7 @@ namespace PhotoOrg
         private const int HT_CLIENT = 0x1;
         private const int HT_CAPTION = 0x2;
 
-        // Pressing the 'Save' button
+            // Pressing the 'Save' button
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -90,9 +128,10 @@ namespace PhotoOrg
             save.Enabled = false;
         }
 
-        private void logo_Click(object sender, EventArgs e) { timer1.Start(); }
+        private void logo_Click(object sender, EventArgs e) {
+        }
 
-        // Stuff to show the 'X Files Loaded!' message based on how many files are loaded
+            // Stuff to show the 'X Files Loaded!' message based on how many files are loaded
 
         private void browse_Click(object sender, EventArgs e)
         {
@@ -106,24 +145,18 @@ namespace PhotoOrg
             }
         }
 
-        // I'll make my own exit button, with blackjack, and overused jokes
+            // I'll make my own exit button, with blackjack, and overused jokes
 
         private void exit_Click(object sender, EventArgs e) { System.Windows.Forms.Application.Exit(); }
 
-        // Gay Code Jail
+            // Gay Code Jail
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            Random rand = new Random();
-            int A = rand.Next(100, 200);
-            int R = rand.Next(100, 200);
-            int G = rand.Next(100, 200);
-            int B = rand.Next(100, 200);
-            logo.ForeColor = Color.FromArgb(A, R, G, B);
-            timer1.Start();
+
         }
 
-        // For showing / hiding the job list
+            // For showing / hiding the job list
 
         private void mail_CheckedChanged(object sender, EventArgs e)
         {
@@ -131,12 +164,28 @@ namespace PhotoOrg
 
         }
 
-        // oopsie whoopsie looks like you cant remove these
+            // oopsie whoopsie looks like you cant remove these
 
         private void textBox1_TextChanged(object sender, EventArgs e){}
 
         private void textBox2_TextChanged(object sender, EventArgs e){}
 
         private void openFileDialog1_FileOk(object sender, EventArgs e){}
+
+        private void settingsOpen_Click(object sender, EventArgs e)
+        {
+            settings settings = new settings();
+            settings.Show();
+        }
+
+        private void close_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Application.Exit();
+        }
+
+        private void PhotoOrg_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

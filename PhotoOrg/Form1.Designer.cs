@@ -39,10 +39,11 @@
             this.save = new System.Windows.Forms.Button();
             this.logo = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.exit = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.browse = new System.Windows.Forms.Button();
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+            this.settingsOpen = new System.Windows.Forms.Button();
+            this.close = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // name
@@ -163,19 +164,6 @@
             this.openFileDialog1.Multiselect = true;
             this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
-            // exit
-            // 
-            this.exit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.exit.BackColor = System.Drawing.Color.Crimson;
-            this.exit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.exit.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.exit.Location = new System.Drawing.Point(440, 12);
-            this.exit.Name = "exit";
-            this.exit.Size = new System.Drawing.Size(22, 22);
-            this.exit.TabIndex = 11;
-            this.exit.UseVisualStyleBackColor = false;
-            this.exit.Click += new System.EventHandler(this.exit_Click);
-            // 
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
@@ -206,6 +194,29 @@
             this.checkedListBox1.Size = new System.Drawing.Size(441, 312);
             this.checkedListBox1.TabIndex = 12;
             // 
+            // settingsOpen
+            // 
+            this.settingsOpen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(117)))), ((int)(((byte)(187)))));
+            this.settingsOpen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.settingsOpen.Location = new System.Drawing.Point(12, 12);
+            this.settingsOpen.Name = "settingsOpen";
+            this.settingsOpen.Size = new System.Drawing.Size(25, 25);
+            this.settingsOpen.TabIndex = 13;
+            this.settingsOpen.UseVisualStyleBackColor = false;
+            this.settingsOpen.Click += new System.EventHandler(this.settingsOpen_Click);
+            // 
+            // close
+            // 
+            this.close.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.close.BackColor = System.Drawing.Color.Red;
+            this.close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.close.Location = new System.Drawing.Point(437, 12);
+            this.close.Name = "close";
+            this.close.Size = new System.Drawing.Size(25, 25);
+            this.close.TabIndex = 14;
+            this.close.UseVisualStyleBackColor = false;
+            this.close.Click += new System.EventHandler(this.close_Click);
+            // 
             // PhotoOrg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -213,8 +224,9 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(57)))), ((int)(((byte)(63)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(474, 450);
+            this.Controls.Add(this.close);
+            this.Controls.Add(this.settingsOpen);
             this.Controls.Add(this.checkedListBox1);
-            this.Controls.Add(this.exit);
             this.Controls.Add(this.save);
             this.Controls.Add(this.browse);
             this.Controls.Add(this.address);
@@ -229,6 +241,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "PhotoOrg";
             this.Text = "Elisha.Photo Organizer";
+            this.Load += new System.EventHandler(this.PhotoOrg_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -245,10 +258,11 @@
         private System.Windows.Forms.Button save;
         private System.Windows.Forms.Label logo;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.Button exit;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button browse;
         private System.Windows.Forms.CheckedListBox checkedListBox1;
+        private System.Windows.Forms.Button settingsOpen;
+        private System.Windows.Forms.Button close;
     }
 }
 
