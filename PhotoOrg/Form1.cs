@@ -75,11 +75,12 @@ namespace PhotoOrg
                     mail.BackColor = boxCol;
                     save.BackColor = boxCol;
                     checkedListBox1.BackColor = boxCol;
+                    
                 }
             }
         }
 
-            // Magic 'grab the window anywhere to drag' code I nabbed. Don't know how it works, but it does. 
+        // Magic 'grab the window anywhere to drag' code I nabbed. Don't know how it works, but it does. 
 
         protected override void WndProc(ref Message m)
         {
@@ -92,21 +93,30 @@ namespace PhotoOrg
         private const int HT_CLIENT = 0x1;
         private const int HT_CAPTION = 0x2;
 
-            // Pressing the 'Save' button
+        // Pressing the 'Save' button
 
         private void button2_Click(object sender, EventArgs e)
         {
             int files = 0;
+            string savedir = "";
+
+            // Looking to see if an alternate save directory was chosen
+
+            if (File.Exists("settings/settings.cfg") && File.ReadAllLines("settings/settings.cfg")[5] != "default") {
+                string[] SettingsFile = File.ReadAllLines("settings/settings.cfg");
+                savedir = @SettingsFile[5];
+                savedir = savedir + @"\";
+            }
 
             // Check to see if the Job # + Name matches any existing folder. If it doesn't proceed to copy
             // and rename based on user input
 
             foreach (string file in openFileDialog1.FileNames)
             {
-                if (!Directory.Exists(order.Text + " - " + name.Text))
-                    Directory.CreateDirectory(order.Text + " - " + name.Text);
-                if (!File.Exists(order.Text + " - " + name.Text + "/" + order.Text + " - " + name.Text + " - " + (files + 1) + ".jpg"))
-                    File.Copy(openFileDialog1.FileNames[files], order.Text + " - " + name.Text + "/" + name.Text + " - " + (files + 1) + ".jpg");
+                if (!Directory.Exists(savedir + order.Text + " - " + name.Text))
+                    Directory.CreateDirectory(savedir + order.Text + " - " + name.Text);
+                if (!File.Exists(savedir + order.Text + " - " + name.Text + "/" + order.Text + " - " + name.Text + " - " + (files + 1) + ".jpg"))
+                    File.Copy(openFileDialog1.FileNames[files], savedir + order.Text + " - " + name.Text + "/" + name.Text + " - " + (files + 1) + ".jpg");
                 files++;
             }
 
@@ -116,7 +126,7 @@ namespace PhotoOrg
             List<string> jobs = new List<string>();
             jobs.Add(job);
             string[] info = { "Name: " + name.Text, "Phone: " + phone.Text, "Order #: " + order.Text, "E-Mail: " + email.Text, "Address: " + address.Text };
-            File.WriteAllLines(order.Text + " - " + name.Text + "/" + "Order info for " + " " + name.Text + ".txt", info);
+            File.WriteAllLines(savedir + order.Text + " - " + name.Text + "/" + "Order info for " + " " + name.Text + ".txt", info);
             jobs.ToArray();
             checkedListBox1.Items.Add(job);
             File.AppendAllLines("jobs.txt", jobs);
@@ -135,10 +145,64 @@ namespace PhotoOrg
             save.Enabled = false;
         }
 
-        private void logo_Click(object sender, EventArgs e) {
+        // Apply theme settings when you click the logo. Because I was too dumb to figure out a real way.
+
+        private void logo_Click(object sender, EventArgs e)
+        {
+            if (File.Exists("settings/settings.cfg"))
+            {
+
+                string[] settingsFile = File.ReadAllLines("settings/settings.cfg");
+                string theme = settingsFile[3];
+                string themepath = "settings/" + theme + ".ini";
+
+                if (File.Exists(themepath))
+                {
+                    string[] settings = File.ReadAllLines(themepath);
+                    logo.Text = settingsFile[1];
+
+                    Color logoCol = Color.FromArgb(Convert.ToInt32(settings[2]), Convert.ToInt32(settings[3]), Convert.ToInt32(settings[4]));
+                    Color bgCol = Color.FromArgb(Convert.ToInt32(settings[6]), Convert.ToInt32(settings[7]), Convert.ToInt32(settings[8]));
+                    Color boxTextCol = Color.FromArgb(Convert.ToInt32(settings[10]), Convert.ToInt32(settings[11]), Convert.ToInt32(settings[12]));
+                    Color boxCol = Color.FromArgb(Convert.ToInt32(settings[14]), Convert.ToInt32(settings[15]), Convert.ToInt32(settings[16]));
+
+                    logo.ForeColor = logoCol;
+
+                    this.BackColor = bgCol;
+
+                    if (settings[18] != "none")
+                    {
+                        Image BG = new Bitmap(@"settings/img/" + settings[18] + ".jpg");
+                        this.BackgroundImage = BG;
+                    }
+                    else {
+                        this.BackgroundImage = null;
+                    }
+
+                    name.ForeColor = boxTextCol;
+                    phone.ForeColor = boxTextCol;
+                    order.ForeColor = boxTextCol;
+                    address.ForeColor = boxTextCol;
+                    email.ForeColor = boxTextCol;
+                    browse.ForeColor = boxTextCol;
+                    mail.ForeColor = boxTextCol;
+                    save.ForeColor = boxTextCol;
+                    checkedListBox1.ForeColor = boxTextCol;
+
+                    name.BackColor = boxCol;
+                    phone.BackColor = boxCol;
+                    order.BackColor = boxCol;
+                    address.BackColor = boxCol;
+                    email.BackColor = boxCol;
+                    browse.BackColor = boxCol;
+                    mail.BackColor = boxCol;
+                    save.BackColor = boxCol;
+                    checkedListBox1.BackColor = boxCol;
+                }
+            }
         }
 
-            // Stuff to show the 'X Files Loaded!' message based on how many files are loaded
+        // Stuff to show the 'X Files Loaded!' message based on how many files are loaded
 
         private void browse_Click(object sender, EventArgs e)
         {
@@ -152,18 +216,18 @@ namespace PhotoOrg
             }
         }
 
-            // I'll make my own exit button, with blackjack, and overused jokes
+        // I'll make my own exit button, with blackjack, and overused jokes
 
         private void exit_Click(object sender, EventArgs e) { System.Windows.Forms.Application.Exit(); }
 
-            // Gay Code Jail
+        // Gay Code Jail
 
         private void timer1_Tick(object sender, EventArgs e)
         {
 
         }
 
-            // For showing / hiding the job list
+        // For showing / hiding the job list
 
         private void mail_CheckedChanged(object sender, EventArgs e)
         {
@@ -171,13 +235,13 @@ namespace PhotoOrg
 
         }
 
-            // oopsie whoopsie looks like you cant remove these
+        // oopsie whoopsie looks like you cant remove these
 
-        private void textBox1_TextChanged(object sender, EventArgs e){}
+        private void textBox1_TextChanged(object sender, EventArgs e) { }
 
-        private void textBox2_TextChanged(object sender, EventArgs e){}
+        private void textBox2_TextChanged(object sender, EventArgs e) { }
 
-        private void openFileDialog1_FileOk(object sender, EventArgs e){}
+        private void openFileDialog1_FileOk(object sender, EventArgs e) { }
 
         private void settingsOpen_Click(object sender, EventArgs e)
         {
