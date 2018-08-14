@@ -147,12 +147,12 @@
             // 
             // logo
             // 
-            this.logo.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.logo.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.logo.AutoSize = true;
             this.logo.Font = new System.Drawing.Font("Courier New", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.logo.ForeColor = System.Drawing.Color.Snow;
-            this.logo.Location = new System.Drawing.Point(103, 46);
-            this.logo.Margin = new System.Windows.Forms.Padding(20, 20, 20, 0);
+            this.logo.Location = new System.Drawing.Point(94, 52);
+            this.logo.Margin = new System.Windows.Forms.Padding(0);
             this.logo.Name = "logo";
             this.logo.Size = new System.Drawing.Size(281, 39);
             this.logo.TabIndex = 10;
@@ -195,6 +195,7 @@
             this.checkedListBox1.Name = "checkedListBox1";
             this.checkedListBox1.Size = new System.Drawing.Size(441, 312);
             this.checkedListBox1.TabIndex = 12;
+            this.checkedListBox1.SelectedIndexChanged += new System.EventHandler(this.checkedListBox1_SelectedIndexChanged);
             // 
             // settingsOpen
             // 

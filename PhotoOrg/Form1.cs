@@ -2,10 +2,16 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Diagnostics;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
+
+
 
 namespace PhotoOrg
 {
+
+
     public partial class PhotoOrg : Form
     {
         public PhotoOrg()
@@ -122,7 +128,7 @@ namespace PhotoOrg
 
             // The retarded amount of effort involved in saving all of that info to a text file / adding it to the job tracker
 
-            string job = "Job #" + order.Text + " for " + name.Text + " : " + files + " files";
+            string job = order.Text + " - " + name.Text;
             List<string> jobs = new List<string>();
             jobs.Add(job);
             string[] info = { "Name: " + name.Text, "Phone: " + phone.Text, "Order #: " + order.Text, "E-Mail: " + email.Text, "Address: " + address.Text };
@@ -141,7 +147,15 @@ namespace PhotoOrg
             address.Text = "address";
             email.Text = "email";
             phone.Text = "phone";
-            order.Text = "order number";
+
+            if (Regex.IsMatch(order.Text, @"^\d+$"))
+            {
+
+                int orderNum = int.Parse(order.Text);
+                orderNum++;
+                order.Text = orderNum.ToString();
+            }
+            else { order.Text = "order number"; }
             save.Enabled = false;
         }
 
@@ -245,8 +259,15 @@ namespace PhotoOrg
 
         private void settingsOpen_Click(object sender, EventArgs e)
         {
-            settings settings = new settings();
-            settings.Show();
+            if (File.Exists("settings/settings.cfg"))
+            {
+                settings settings = new settings();
+                settings.Show();
+            }
+            else
+            {
+                MessageBox.Show("Settings file missing!");
+            }
         }
 
         private void close_Click(object sender, EventArgs e)
@@ -257,6 +278,28 @@ namespace PhotoOrg
         private void PhotoOrg_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string savedir = "";
+
+            if (File.Exists("settings/settings.cfg") && File.ReadAllLines("settings/settings.cfg")[5] != "default")
+            {
+                string[] SettingsFile = File.ReadAllLines("settings/settings.cfg");
+                savedir = @SettingsFile[5];
+                savedir = savedir + @"\";
+                string Select = (sender as CheckedListBox).SelectedItem.ToString();
+                string cwd = savedir + Select;
+                MessageBox.Show(cwd);
+                Process.Start("explorer.exe", cwd);
+            }
+           else
+            {
+                string Select = (sender as CheckedListBox).SelectedItem.ToString();
+                string cwd = Directory.GetCurrentDirectory() + @"\" + Select;
+                Process.Start("explorer.exe", cwd);
+            }
         }
     }
 }
