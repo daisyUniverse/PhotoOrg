@@ -44,6 +44,7 @@
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.settingsOpen = new System.Windows.Forms.Button();
             this.close = new System.Windows.Forms.Button();
+            this.AddFiles = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // name
@@ -178,7 +179,7 @@
             this.browse.ForeColor = System.Drawing.Color.LightGray;
             this.browse.Location = new System.Drawing.Point(13, 347);
             this.browse.Name = "browse";
-            this.browse.Size = new System.Drawing.Size(447, 42);
+            this.browse.Size = new System.Drawing.Size(448, 42);
             this.browse.TabIndex = 6;
             this.browse.Text = "browse";
             this.browse.UseVisualStyleBackColor = false;
@@ -193,7 +194,7 @@
             this.checkedListBox1.FormattingEnabled = true;
             this.checkedListBox1.Location = new System.Drawing.Point(476, 126);
             this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(441, 312);
+            this.checkedListBox1.Size = new System.Drawing.Size(441, 260);
             this.checkedListBox1.TabIndex = 12;
             this.checkedListBox1.SelectedIndexChanged += new System.EventHandler(this.checkedListBox1_SelectedIndexChanged);
             // 
@@ -213,12 +214,26 @@
             this.close.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.close.BackColor = System.Drawing.Color.Red;
             this.close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.close.Location = new System.Drawing.Point(437, 12);
+            this.close.Location = new System.Drawing.Point(438, 12);
             this.close.Name = "close";
             this.close.Size = new System.Drawing.Size(25, 25);
             this.close.TabIndex = 14;
             this.close.UseVisualStyleBackColor = false;
             this.close.Click += new System.EventHandler(this.close_Click);
+            // 
+            // AddFiles
+            // 
+            this.AddFiles.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(44)))), ((int)(((byte)(49)))));
+            this.AddFiles.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.AddFiles.Font = new System.Drawing.Font("Arial", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AddFiles.ForeColor = System.Drawing.Color.LightGray;
+            this.AddFiles.Location = new System.Drawing.Point(476, 395);
+            this.AddFiles.Name = "AddFiles";
+            this.AddFiles.Size = new System.Drawing.Size(441, 42);
+            this.AddFiles.TabIndex = 15;
+            this.AddFiles.Text = "Open Folder";
+            this.AddFiles.UseVisualStyleBackColor = false;
+            this.AddFiles.Click += new System.EventHandler(this.AddFiles_Click);
             // 
             // PhotoOrg
             // 
@@ -226,7 +241,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(57)))), ((int)(((byte)(63)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(474, 450);
+            this.ClientSize = new System.Drawing.Size(475, 450);
+            this.Controls.Add(this.AddFiles);
             this.Controls.Add(this.close);
             this.Controls.Add(this.settingsOpen);
             this.Controls.Add(this.checkedListBox1);
@@ -266,6 +282,7 @@
         private System.Windows.Forms.CheckedListBox checkedListBox1;
         private System.Windows.Forms.Button settingsOpen;
         private System.Windows.Forms.Button close;
+        private System.Windows.Forms.Button AddFiles;
     }
 }
 

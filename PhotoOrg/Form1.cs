@@ -121,8 +121,10 @@ namespace PhotoOrg
             {
                 if (!Directory.Exists(savedir + order.Text + " - " + name.Text))
                     Directory.CreateDirectory(savedir + order.Text + " - " + name.Text);
-                if (!File.Exists(savedir + order.Text + " - " + name.Text + "/" + order.Text + " - " + name.Text + " - " + (files + 1) + ".jpg"))
-                    File.Copy(openFileDialog1.FileNames[files], savedir + order.Text + " - " + name.Text + "/" + name.Text + " - " + (files + 1) + ".jpg");
+                    int filesexist = Directory.GetFiles(savedir + order.Text + " - " + name.Text).Length;
+
+                if (!File.Exists(savedir + order.Text + " - " + name.Text + "/" + order.Text + " - " + name.Text + " - " + (filesexist + 1) + ".jpg"))
+                    File.Copy(openFileDialog1.FileNames[files], savedir + order.Text + " - " + name.Text + "/" + name.Text + " - " + (filesexist + 1) + ".jpg");
                 files++;
             }
 
@@ -131,7 +133,7 @@ namespace PhotoOrg
             string job = order.Text + " - " + name.Text;
             List<string> jobs = new List<string>();
             jobs.Add(job);
-            string[] info = { "Name: " + name.Text, "Phone: " + phone.Text, "Order #: " + order.Text, "E-Mail: " + email.Text, "Address: " + address.Text };
+            string[] info = { name.Text, phone.Text, order.Text, email.Text, address.Text };
             File.WriteAllLines(savedir + order.Text + " - " + name.Text + "/" + "Order info for " + " " + name.Text + ".txt", info);
             jobs.ToArray();
             checkedListBox1.Items.Add(job);
@@ -280,6 +282,8 @@ namespace PhotoOrg
 
         }
 
+        // Reset all parameters to the info for a previous job if clicked on in the list
+
         private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             string savedir = "";
@@ -297,6 +301,50 @@ namespace PhotoOrg
            else
             {
                 string Select = (sender as CheckedListBox).SelectedItem.ToString();
+                string[] chop = Select.Split('-');
+                string dice = chop[chop.Length - 1];
+                string Fname = dice.Remove(0, 1);
+
+                string cwinfo = Directory.GetCurrentDirectory() + @"\" + Select + @"\Order info for  " + Fname + ".txt";
+                if (File.Exists(cwinfo))
+                {
+                    string[] info = File.ReadAllLines(cwinfo);
+
+                    openFileDialog1.Reset();
+                    openFileDialog1.Multiselect = true;
+                    name.Text = info[0];
+                    address.Text = info[4];
+                    email.Text = info[3];
+                    order.Text = info[2];
+                    phone.Text = info[1];
+                }
+                else {
+                    MessageBox.Show(cwinfo + Fname);
+                }
+            }
+        }
+
+        // Open up the folder for the job you have clicked
+
+        private void AddFiles_Click(object sender, EventArgs e)
+        {
+            string savedir = "";
+
+            if (File.Exists("settings/settings.cfg") && File.ReadAllLines("settings/settings.cfg")[5] != "default")
+            {
+                // Handle some custom save directory stuff for opening jobs
+
+                string[] SettingsFile = File.ReadAllLines("settings/settings.cfg");
+                savedir = @SettingsFile[5];
+                savedir = savedir + @"\";
+                string Select = (sender as CheckedListBox).SelectedItem.ToString();
+                string cwd = savedir + Select;
+                MessageBox.Show(cwd);
+                Process.Start("explorer.exe", cwd);
+            }
+            else
+            {
+                string Select = checkedListBox1.SelectedItem.ToString();
                 string cwd = Directory.GetCurrentDirectory() + @"\" + Select;
                 Process.Start("explorer.exe", cwd);
             }
