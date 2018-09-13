@@ -132,13 +132,16 @@ namespace PhotoOrg
 
             string job = order.Text + " - " + name.Text;
             List<string> jobs = new List<string>();
-            jobs.Add(job);
-            string[] info = { name.Text, phone.Text, order.Text, email.Text, address.Text };
-            File.WriteAllLines(savedir + order.Text + " - " + name.Text + "/" + "Order info for " + " " + name.Text + ".txt", info);
-            jobs.ToArray();
-            checkedListBox1.Items.Add(job);
-            File.AppendAllLines("jobs.txt", jobs);
 
+            if (!checkedListBox1.Items.Contains(job))
+            {
+                jobs.Add(job);
+                string[] info = { name.Text, phone.Text, order.Text, email.Text, address.Text };
+                File.WriteAllLines(savedir + order.Text + " - " + name.Text + "/" + "Order info for " + " " + name.Text + ".txt", info);
+                jobs.ToArray();
+                checkedListBox1.Items.Add(job);
+                File.AppendAllLines("jobs.txt", jobs);
+            }
             // Copying finished, show confirmation, and reset all parameters to get ready for the next job
 
             MessageBox.Show("Done!");
@@ -254,9 +257,7 @@ namespace PhotoOrg
         // oopsie whoopsie looks like you cant remove these
 
         private void textBox1_TextChanged(object sender, EventArgs e) { }
-
         private void textBox2_TextChanged(object sender, EventArgs e) { }
-
         private void openFileDialog1_FileOk(object sender, EventArgs e) { }
 
         private void settingsOpen_Click(object sender, EventArgs e)
