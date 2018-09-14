@@ -45,6 +45,8 @@
             this.settingsOpen = new System.Windows.Forms.Button();
             this.close = new System.Windows.Forms.Button();
             this.AddFiles = new System.Windows.Forms.Button();
+            this.notes = new System.Windows.Forms.TextBox();
+            this.filesprev = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // name
@@ -94,7 +96,7 @@
             this.mail.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.mail.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.mail.Font = new System.Drawing.Font("Arial", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.mail.ForeColor = System.Drawing.Color.DimGray;
+            this.mail.ForeColor = System.Drawing.Color.LightGray;
             this.mail.Location = new System.Drawing.Point(12, 395);
             this.mail.Name = "mail";
             this.mail.Size = new System.Drawing.Size(79, 43);
@@ -235,6 +237,30 @@
             this.AddFiles.UseVisualStyleBackColor = false;
             this.AddFiles.Click += new System.EventHandler(this.AddFiles_Click);
             // 
+            // notes
+            // 
+            this.notes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(44)))), ((int)(((byte)(49)))));
+            this.notes.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.notes.Font = new System.Drawing.Font("Arial", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.notes.ForeColor = System.Drawing.Color.LightGray;
+            this.notes.Location = new System.Drawing.Point(12, 286);
+            this.notes.Name = "notes";
+            this.notes.Size = new System.Drawing.Size(448, 34);
+            this.notes.TabIndex = 16;
+            this.notes.Text = "notes";
+            this.notes.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.notes.TextChanged += new System.EventHandler(this.notes_TextChanged);
+            // 
+            // filesprev
+            // 
+            this.filesprev.AutoSize = true;
+            this.filesprev.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.filesprev.ForeColor = System.Drawing.Color.LightGray;
+            this.filesprev.Location = new System.Drawing.Point(111, 402);
+            this.filesprev.Name = "filesprev";
+            this.filesprev.Size = new System.Drawing.Size(0, 32);
+            this.filesprev.TabIndex = 17;
+            // 
             // PhotoOrg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -242,6 +268,8 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(57)))), ((int)(((byte)(63)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(475, 450);
+            this.Controls.Add(this.filesprev);
+            this.Controls.Add(this.notes);
             this.Controls.Add(this.AddFiles);
             this.Controls.Add(this.close);
             this.Controls.Add(this.settingsOpen);
@@ -283,6 +311,8 @@
         private System.Windows.Forms.Button settingsOpen;
         private System.Windows.Forms.Button close;
         private System.Windows.Forms.Button AddFiles;
+        private System.Windows.Forms.TextBox notes;
+        private System.Windows.Forms.Label filesprev;
     }
 }
 

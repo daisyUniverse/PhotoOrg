@@ -70,9 +70,13 @@ namespace PhotoOrg
                     browse.ForeColor = boxTextCol;
                     mail.ForeColor = boxTextCol;
                     save.ForeColor = boxTextCol;
+                    notes.ForeColor = boxTextCol;
+                    AddFiles.ForeColor = boxTextCol;
                     checkedListBox1.ForeColor = boxTextCol;
 
                     name.BackColor = boxCol;
+                    notes.BackColor = boxCol;
+                    AddFiles.BackColor = boxCol;
                     phone.BackColor = boxCol;
                     order.BackColor = boxCol;
                     address.BackColor = boxCol;
@@ -136,7 +140,7 @@ namespace PhotoOrg
             if (!checkedListBox1.Items.Contains(job))
             {
                 jobs.Add(job);
-                string[] info = { name.Text, phone.Text, order.Text, email.Text, address.Text };
+                string[] info = { name.Text, phone.Text, order.Text, email.Text, address.Text, notes.Text };
                 File.WriteAllLines(savedir + order.Text + " - " + name.Text + "/" + "Order info for " + " " + name.Text + ".txt", info);
                 jobs.ToArray();
                 checkedListBox1.Items.Add(job);
@@ -152,6 +156,7 @@ namespace PhotoOrg
             address.Text = "address";
             email.Text = "email";
             phone.Text = "phone";
+            notes.Text = "notes";
 
             if (Regex.IsMatch(order.Text, @"^\d+$"))
             {
@@ -206,9 +211,12 @@ namespace PhotoOrg
                     browse.ForeColor = boxTextCol;
                     mail.ForeColor = boxTextCol;
                     save.ForeColor = boxTextCol;
+                    notes.ForeColor = boxTextCol;
+                    AddFiles.ForeColor = boxTextCol;
                     checkedListBox1.ForeColor = boxTextCol;
 
                     name.BackColor = boxCol;
+                    notes.BackColor = boxCol;
                     phone.BackColor = boxCol;
                     order.BackColor = boxCol;
                     address.BackColor = boxCol;
@@ -216,6 +224,7 @@ namespace PhotoOrg
                     browse.BackColor = boxCol;
                     mail.BackColor = boxCol;
                     save.BackColor = boxCol;
+                    AddFiles.BackColor = boxCol;
                     checkedListBox1.BackColor = boxCol;
                 }
             }
@@ -307,6 +316,8 @@ namespace PhotoOrg
                 string Fname = dice.Remove(0, 1);
 
                 string cwinfo = Directory.GetCurrentDirectory() + @"\" + Select + @"\Order info for  " + Fname + ".txt";
+                string cwd = Directory.GetCurrentDirectory() + @"\" + Select;
+                int filesexist = Directory.GetFiles(cwd).Length;
                 if (File.Exists(cwinfo))
                 {
                     string[] info = File.ReadAllLines(cwinfo);
@@ -315,9 +326,11 @@ namespace PhotoOrg
                     openFileDialog1.Multiselect = true;
                     name.Text = info[0];
                     address.Text = info[4];
+                    notes.Text = info[5];
                     email.Text = info[3];
                     order.Text = info[2];
                     phone.Text = info[1];
+                    filesprev.Text = "files: " + filesexist;
                 }
                 else {
                     MessageBox.Show(cwinfo + Fname);
@@ -349,6 +362,11 @@ namespace PhotoOrg
                 string cwd = Directory.GetCurrentDirectory() + @"\" + Select;
                 Process.Start("explorer.exe", cwd);
             }
+        }
+
+        private void notes_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
