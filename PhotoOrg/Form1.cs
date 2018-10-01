@@ -145,6 +145,10 @@ namespace PhotoOrg
                 jobs.ToArray();
                 checkedListBox1.Items.Add(job);
                 File.AppendAllLines("jobs.txt", jobs);
+            }else{
+                jobs.Add(job);
+                string[] info = { name.Text, phone.Text, order.Text, email.Text, address.Text, notes.Text };
+                File.WriteAllLines(savedir + order.Text + " - " + name.Text + "/" + "Order info for " + " " + name.Text + ".txt", info);
             }
             // Copying finished, show confirmation, and reset all parameters to get ready for the next job
 
@@ -166,7 +170,6 @@ namespace PhotoOrg
                 order.Text = orderNum.ToString();
             }
             else { order.Text = "order number"; }
-            save.Enabled = false;
         }
 
         // Apply theme settings when you click the logo. Because I was too dumb to figure out a real way.
@@ -331,6 +334,7 @@ namespace PhotoOrg
                     order.Text = info[2];
                     phone.Text = info[1];
                     filesprev.Text = "files: " + filesexist;
+                    save.Enabled = true;
                 }
                 else {
                     MessageBox.Show(cwinfo + Fname);
@@ -367,6 +371,16 @@ namespace PhotoOrg
         private void notes_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void delete_Click(object sender, EventArgs e)
+        {
+            DialogResult delmes = MessageBox.Show("Are you sure you would like to remove entry? Photos will remain","Delete Job",MessageBoxButtons.YesNo);
+            if (delmes == DialogResult.Yes)
+            {
+                string killme = checkedListBox1.SelectedItem.ToString();
+                checkedListBox1.Items.Remove(killme);
+            }
         }
     }
 }
