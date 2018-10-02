@@ -5,8 +5,7 @@ using System.Drawing;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
-
-
+using System.Linq;
 
 namespace PhotoOrg
 {
@@ -262,7 +261,7 @@ namespace PhotoOrg
 
         private void mail_CheckedChanged(object sender, EventArgs e)
         {
-            if (mail.Checked) { PhotoOrg.ActiveForm.Width = 930; } else { PhotoOrg.ActiveForm.Width = 472; }
+            if (mail.Checked) { PhotoOrg.ActiveForm.Width = 1377; } else { PhotoOrg.ActiveForm.Width = 472; }
 
         }
 
@@ -295,6 +294,11 @@ namespace PhotoOrg
 
         }
 
+        private List<PictureBox> PictureBoxes = new List<PictureBox>();
+        private const int ThumbWidth = 200;
+        private const int ThumbHeight = 200;
+        private const int exifOrientationID = 0x112; //274
+
         // Reset all parameters to the info for a previous job if clicked on in the list
 
         private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -312,7 +316,7 @@ namespace PhotoOrg
                 Process.Start("explorer.exe", cwd);
             }
            else
-            {
+            {   // Open previous job
                 string Select = (sender as CheckedListBox).SelectedItem.ToString();
                 string[] chop = Select.Split('-');
                 string dice = chop[chop.Length - 1];
@@ -324,6 +328,66 @@ namespace PhotoOrg
                 if (File.Exists(cwinfo))
                 {
                     string[] info = File.ReadAllLines(cwinfo);
+
+                    // loading Image thumbnail stuff
+
+                    foreach (PictureBox pic in PictureBoxes) {
+                        pic.DoubleClick -= PictureBox_DoubleClick;
+                        pic.Dispose();
+                    }
+
+                    flowLayoutPanel1.Controls.Clear();
+                    PictureBoxes = new List<PictureBox>();
+
+                    List<string> filenames = new List<string>();
+                    string[] patterns = { "*.png", "*.gif", "*.jpg", "*.bmp", "*.tif" };
+                    foreach (string pattern in patterns) {
+                        filenames.AddRange(Directory.GetFiles(cwd, pattern, SearchOption.TopDirectoryOnly));
+                    }
+                    filenames.Sort();
+
+                    foreach (string filename in filenames) {
+                        PictureBox pic = new PictureBox();
+                        pic.ClientSize = new Size(ThumbWidth, ThumbHeight);
+                        pic.Image = new Bitmap(filename);
+
+                        if ((pic.Image.Width > ThumbWidth) || (pic.Image.Height > ThumbHeight))
+                        {
+                            pic.SizeMode = PictureBoxSizeMode.Zoom;
+                        }
+                        else {
+                            pic.SizeMode = PictureBoxSizeMode.CenterImage;
+                        }
+
+                        // Check if image has Rotation flag from Exif data
+
+                        if (pic.Image.PropertyIdList.Contains(exifOrientationID))
+                        {
+                            var prop = pic.Image.GetPropertyItem(exifOrientationID);
+                            int val = BitConverter.ToUInt16(prop.Value, 0);
+                            var rot = RotateFlipType.RotateNoneFlipNone;
+                            if (val == 3 || val == 4)
+                                rot = RotateFlipType.Rotate180FlipNone;
+                            else if (val == 5 || val == 6)
+                                rot = RotateFlipType.Rotate90FlipNone;
+                            else if (val == 7 || val == 8)
+                                rot = RotateFlipType.Rotate270FlipNone;
+                            if (val == 2 || val == 4 || val == 5 || val == 7)
+                                rot |= RotateFlipType.RotateNoneFlipX;
+                            if (rot != RotateFlipType.RotateNoneFlipNone)
+                                pic.Image.RotateFlip(rot);
+                        }
+
+                        pic.DoubleClick += PictureBox_DoubleClick;
+                        FileInfo file_info = new FileInfo(filename);
+                        //tipPicture.SetToolTip(pic, file_info.Name + "/nCreated " + file_info.CreationTime.ToShortDateString() + "\n(" + pic.Image.Width + " x " + pic.Image.Height + ") " + ToFileSizeApi(file_info.Length));
+                        pic.Tag = file_info;
+
+                        
+                        pic.Parent = flowLayoutPanel1;
+                    }
+
+                    // Repopulate the text boxes with saved info
 
                     openFileDialog1.Reset();
                     openFileDialog1.Multiselect = true;
@@ -373,14 +437,61 @@ namespace PhotoOrg
 
         }
 
+        // Deletes job
+
         private void delete_Click(object sender, EventArgs e)
         {
             DialogResult delmes = MessageBox.Show("Are you sure you would like to remove entry? Photos will remain","Delete Job",MessageBoxButtons.YesNo);
             if (delmes == DialogResult.Yes)
             {
                 string killme = checkedListBox1.SelectedItem.ToString();
+
+                string[] Lines = File.ReadAllLines("jobs.txt");
+                File.Delete("jobs.txt");// Deleting the file
+                using (StreamWriter sw = File.AppendText("jobs.txt"))
+
+                {
+                    foreach (string line in Lines)
+                    {
+                        if (line.IndexOf(killme) >= 0)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            sw.WriteLine(line);
+                        }
+                    }
+                }
+
+                if (checkedListBox1.SelectedIndex > 0)
+                    checkedListBox1.SelectedIndex = checkedListBox1.SelectedIndex - 1;
+                
+                if (checkedListBox1.SelectedIndex < checkedListBox1.SelectedIndex - 0)
+                    checkedListBox1.SelectedIndex = checkedListBox1.SelectedIndex + 1;
+
                 checkedListBox1.Items.Remove(killme);
             }
+        }
+
+        private void Thumbnail_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void PictureBox_DoubleClick(object sender, EventArgs e)
+        {
+            // Get the file's information.
+            PictureBox pic = sender as PictureBox;
+            FileInfo file_into = pic.Tag as FileInfo;
+
+            // "Start" the file.
+            Process.Start(file_into.FullName);
         }
     }
 }
