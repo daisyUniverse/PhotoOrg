@@ -1,10 +1,10 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Diagnostics;
-using System.Windows.Forms;
+using System.Drawing;
+using System.IO;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using System.Linq;
 
 namespace PhotoOrg
@@ -104,7 +104,7 @@ namespace PhotoOrg
 
         // Pressing the 'Save' button
 
-        private void button2_Click(object sender, EventArgs e)
+        private void saveButton_Click(object sender, EventArgs e)
         {
             int files = 0;
             string savedir = "";
@@ -252,29 +252,19 @@ namespace PhotoOrg
             Application.Exit();
         }
 
-        // Gay Code Jail
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-
-        }
-
         // For showing / hiding the job list
 
-        private void mail_CheckedChanged(object sender, EventArgs e)
+        private void jobs_CheckedChanged(object sender, EventArgs e)
         {
-            if (jobsToggleCheckbox.Checked) {
+            if (jobsToggleCheckbox.Checked)
+            {
                 ActiveForm.Width = 1377;
-            } else {
+            }
+            else
+            {
                 ActiveForm.Width = 472;
             }
-
         }
-
-        // oopsie whoopsie looks like you cant remove these
-
-        private void textBox1_TextChanged(object sender, EventArgs e) { }
-        private void textBox2_TextChanged(object sender, EventArgs e) { }
 
         private void settingsOpen_Click(object sender, EventArgs e)
         {
@@ -294,11 +284,6 @@ namespace PhotoOrg
             Application.Exit();
         }
 
-        private void PhotoOrg_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private List<PictureBox> PictureBoxes = new List<PictureBox>();
         private const int ThumbWidth = 200;
         private const int ThumbHeight = 200;
@@ -306,7 +291,7 @@ namespace PhotoOrg
 
         // Reset all parameters to the info for a previous job if clicked on in the list
 
-        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void jobsCheckedListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             string savedir = "";
 
@@ -320,7 +305,7 @@ namespace PhotoOrg
                 MessageBox.Show(cwd);
                 Process.Start("explorer.exe", cwd);
             }
-           else
+            else
             {   // Open previous job
                 string Select = (sender as CheckedListBox).SelectedItem.ToString();
                 string[] chop = Select.Split('-');
@@ -336,7 +321,8 @@ namespace PhotoOrg
 
                     // loading Image thumbnail stuff
 
-                    foreach (PictureBox pic in PictureBoxes) {
+                    foreach (PictureBox pic in PictureBoxes)
+                    {
                         pic.DoubleClick -= PictureBox_DoubleClick;
                         pic.Dispose();
                     }
@@ -346,12 +332,14 @@ namespace PhotoOrg
 
                     List<string> filenames = new List<string>();
                     string[] patterns = { "*.png", "*.gif", "*.jpg", "*.bmp", "*.tif" };
-                    foreach (string pattern in patterns) {
+                    foreach (string pattern in patterns)
+                    {
                         filenames.AddRange(Directory.GetFiles(cwd, pattern, SearchOption.TopDirectoryOnly));
                     }
                     filenames.Sort();
 
-                    foreach (string filename in filenames) {
+                    foreach (string filename in filenames)
+                    {
                         PictureBox pic = new PictureBox();
                         pic.ClientSize = new Size(ThumbWidth, ThumbHeight);
                         pic.Image = new Bitmap(filename);
@@ -360,7 +348,8 @@ namespace PhotoOrg
                         {
                             pic.SizeMode = PictureBoxSizeMode.Zoom;
                         }
-                        else {
+                        else
+                        {
                             pic.SizeMode = PictureBoxSizeMode.CenterImage;
                         }
 
@@ -388,7 +377,7 @@ namespace PhotoOrg
                         //tipPicture.SetToolTip(pic, file_info.Name + "/nCreated " + file_info.CreationTime.ToShortDateString() + "\n(" + pic.Image.Width + " x " + pic.Image.Height + ") " + ToFileSizeApi(file_info.Length));
                         pic.Tag = file_info;
 
-                        
+
                         pic.Parent = imagePreviewPanel;
                     }
 
@@ -405,7 +394,8 @@ namespace PhotoOrg
                     fileCountLabel.Text = "files: " + filesexist;
                     saveButton.Enabled = true;
                 }
-                else {
+                else
+                {
                     MessageBox.Show(cwinfo + Fname);
                 }
             }
@@ -435,11 +425,6 @@ namespace PhotoOrg
                 string cwd = Directory.GetCurrentDirectory() + @"\" + Select;
                 Process.Start("explorer.exe", cwd);
             }
-        }
-
-        private void notes_TextChanged(object sender, EventArgs e)
-        {
-
         }
 
         // Deletes job
@@ -479,16 +464,6 @@ namespace PhotoOrg
             }
         }
 
-        private void Thumbnail_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void PictureBox_DoubleClick(object sender, EventArgs e)
         {
             // Get the file's information.
@@ -497,11 +472,6 @@ namespace PhotoOrg
 
             // "Start" the file.
             Process.Start(file_into.FullName);
-        }
-
-        private void openFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-
         }
     }
 }

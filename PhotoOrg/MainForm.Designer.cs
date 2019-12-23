@@ -61,7 +61,6 @@
             this.nameInput.TabIndex = 0;
             this.nameInput.Text = "name";
             this.nameInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.nameInput.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // orderNumberInput
             // 
@@ -104,7 +103,7 @@
             this.jobsToggleCheckbox.Text = "jobs";
             this.jobsToggleCheckbox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.jobsToggleCheckbox.UseVisualStyleBackColor = true;
-            this.jobsToggleCheckbox.CheckedChanged += new System.EventHandler(this.mail_CheckedChanged);
+            this.jobsToggleCheckbox.CheckedChanged += new System.EventHandler(this.jobs_CheckedChanged);
             // 
             // emailButton
             // 
@@ -131,7 +130,6 @@
             this.addressInput.TabIndex = 4;
             this.addressInput.Text = "address";
             this.addressInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.addressInput.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // saveButton
             // 
@@ -146,7 +144,7 @@
             this.saveButton.TabIndex = 8;
             this.saveButton.Text = "save";
             this.saveButton.UseVisualStyleBackColor = false;
-            this.saveButton.Click += new System.EventHandler(this.button2_Click);
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // formTitleLabel
             // 
@@ -154,7 +152,7 @@
             this.formTitleLabel.AutoSize = true;
             this.formTitleLabel.Font = new System.Drawing.Font("Courier New", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.formTitleLabel.ForeColor = System.Drawing.Color.Snow;
-            this.formTitleLabel.Location = new System.Drawing.Point(580, 52);
+            this.formTitleLabel.Location = new System.Drawing.Point(93, 52);
             this.formTitleLabel.Margin = new System.Windows.Forms.Padding(0);
             this.formTitleLabel.Name = "formTitleLabel";
             this.formTitleLabel.Size = new System.Drawing.Size(281, 39);
@@ -188,7 +186,7 @@
             this.jobsCheckedListBox.Name = "jobsCheckedListBox";
             this.jobsCheckedListBox.Size = new System.Drawing.Size(441, 260);
             this.jobsCheckedListBox.TabIndex = 12;
-            this.jobsCheckedListBox.SelectedIndexChanged += new System.EventHandler(this.checkedListBox1_SelectedIndexChanged);
+            this.jobsCheckedListBox.SelectedIndexChanged += new System.EventHandler(this.jobsCheckedListBox_SelectedIndexChanged);
             // 
             // settingsButton
             // 
@@ -206,7 +204,7 @@
             this.closeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.closeButton.BackColor = System.Drawing.Color.Red;
             this.closeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.closeButton.Location = new System.Drawing.Point(1410, 12);
+            this.closeButton.Location = new System.Drawing.Point(436, 12);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(25, 25);
             this.closeButton.TabIndex = 14;
@@ -239,7 +237,6 @@
             this.notesInput.TabIndex = 16;
             this.notesInput.Text = "notes";
             this.notesInput.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.notesInput.TextChanged += new System.EventHandler(this.notes_TextChanged);
             // 
             // fileCountLabel
             // 
@@ -273,19 +270,18 @@
             this.imagePreviewPanel.Name = "imagePreviewPanel";
             this.imagePreviewPanel.Size = new System.Drawing.Size(441, 233);
             this.imagePreviewPanel.TabIndex = 19;
-            this.imagePreviewPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.flowLayoutPanel1_Paint);
             // 
             // addFilesOpenFileDialog
             // 
             this.addFilesOpenFileDialog.FileName = "addPhotosOpenFileDialog";
             // 
-            // mainForm
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(57)))), ((int)(((byte)(63)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1446, 450);
+            this.ClientSize = new System.Drawing.Size(472, 450);
             this.Controls.Add(this.imagePreviewPanel);
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.fileCountLabel);
@@ -306,9 +302,8 @@
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "mainForm";
+            this.Name = "MainForm";
             this.Text = "Elisha.Photo Organizer";
-            this.Load += new System.EventHandler(this.PhotoOrg_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
