@@ -11,9 +11,9 @@ namespace PhotoOrg
 {
 
 
-    public partial class PhotoOrg : Form
+    public partial class MainForm : Form
     {
-        public PhotoOrg()
+        public MainForm()
         {
 
             InitializeComponent();
@@ -26,7 +26,7 @@ namespace PhotoOrg
                 string[] log = File.ReadAllLines("jobs.txt");
                 foreach (string file in log)
                 {
-                    checkedListBox1.Items.Add(log[count]);
+                    jobsCheckedListBox.Items.Add(log[count]);
                     count++;
                 }
             }
@@ -44,14 +44,14 @@ namespace PhotoOrg
                 if (File.Exists(themepath))
                 {
                     string[] settings = File.ReadAllLines(themepath);
-                    logo.Text = settingsFile[1];
+                    formTitleLabel.Text = settingsFile[1];
 
                     Color logoCol = Color.FromArgb(Convert.ToInt32(settings[2]), Convert.ToInt32(settings[3]), Convert.ToInt32(settings[4]));
                     Color bgCol = Color.FromArgb(Convert.ToInt32(settings[6]), Convert.ToInt32(settings[7]), Convert.ToInt32(settings[8]));
                     Color boxTextCol = Color.FromArgb(Convert.ToInt32(settings[10]), Convert.ToInt32(settings[11]), Convert.ToInt32(settings[12]));
                     Color boxCol = Color.FromArgb(Convert.ToInt32(settings[14]), Convert.ToInt32(settings[15]), Convert.ToInt32(settings[16]));
 
-                    logo.ForeColor = logoCol;
+                    formTitleLabel.ForeColor = logoCol;
 
                     this.BackColor = bgCol;
 
@@ -61,29 +61,29 @@ namespace PhotoOrg
                         this.BackgroundImage = BG;
                     }
 
-                    name.ForeColor = boxTextCol;
-                    phone.ForeColor = boxTextCol;
-                    order.ForeColor = boxTextCol;
-                    address.ForeColor = boxTextCol;
-                    email.ForeColor = boxTextCol;
-                    browse.ForeColor = boxTextCol;
-                    mail.ForeColor = boxTextCol;
-                    save.ForeColor = boxTextCol;
-                    notes.ForeColor = boxTextCol;
-                    AddFiles.ForeColor = boxTextCol;
-                    checkedListBox1.ForeColor = boxTextCol;
+                    nameInput.ForeColor = boxTextCol;
+                    phoneNumberInput.ForeColor = boxTextCol;
+                    orderNumberInput.ForeColor = boxTextCol;
+                    addressInput.ForeColor = boxTextCol;
+                    emailButton.ForeColor = boxTextCol;
+                    browseButton.ForeColor = boxTextCol;
+                    jobsToggleCheckbox.ForeColor = boxTextCol;
+                    saveButton.ForeColor = boxTextCol;
+                    notesInput.ForeColor = boxTextCol;
+                    openJobFolderButton.ForeColor = boxTextCol;
+                    jobsCheckedListBox.ForeColor = boxTextCol;
 
-                    name.BackColor = boxCol;
-                    notes.BackColor = boxCol;
-                    AddFiles.BackColor = boxCol;
-                    phone.BackColor = boxCol;
-                    order.BackColor = boxCol;
-                    address.BackColor = boxCol;
-                    email.BackColor = boxCol;
-                    browse.BackColor = boxCol;
-                    mail.BackColor = boxCol;
-                    save.BackColor = boxCol;
-                    checkedListBox1.BackColor = boxCol;
+                    nameInput.BackColor = boxCol;
+                    notesInput.BackColor = boxCol;
+                    openJobFolderButton.BackColor = boxCol;
+                    phoneNumberInput.BackColor = boxCol;
+                    orderNumberInput.BackColor = boxCol;
+                    addressInput.BackColor = boxCol;
+                    emailButton.BackColor = boxCol;
+                    browseButton.BackColor = boxCol;
+                    jobsToggleCheckbox.BackColor = boxCol;
+                    saveButton.BackColor = boxCol;
+                    jobsCheckedListBox.BackColor = boxCol;
                     
                 }
             }
@@ -120,55 +120,55 @@ namespace PhotoOrg
             // Check to see if the Job # + Name matches any existing folder. If it doesn't proceed to copy
             // and rename based on user input
 
-            foreach (string file in openFileDialog1.FileNames)
+            foreach (string file in addFilesOpenFileDialog.FileNames)
             {
-                if (!Directory.Exists(savedir + order.Text + " - " + name.Text))
-                    Directory.CreateDirectory(savedir + order.Text + " - " + name.Text);
-                    int filesexist = Directory.GetFiles(savedir + order.Text + " - " + name.Text).Length;
+                if (!Directory.Exists(savedir + orderNumberInput.Text + " - " + nameInput.Text))
+                    Directory.CreateDirectory(savedir + orderNumberInput.Text + " - " + nameInput.Text);
+                    int filesexist = Directory.GetFiles(savedir + orderNumberInput.Text + " - " + nameInput.Text).Length;
 
-                if (!File.Exists(savedir + order.Text + " - " + name.Text + "/" + order.Text + " - " + name.Text + " - " + (filesexist + 1) + ".jpg"))
-                    File.Copy(openFileDialog1.FileNames[files], savedir + order.Text + " - " + name.Text + "/" + name.Text + " - " + (filesexist + 1) + ".jpg");
+                if (!File.Exists(savedir + orderNumberInput.Text + " - " + nameInput.Text + "/" + orderNumberInput.Text + " - " + nameInput.Text + " - " + (filesexist + 1) + ".jpg"))
+                    File.Copy(addFilesOpenFileDialog.FileNames[files], savedir + orderNumberInput.Text + " - " + nameInput.Text + "/" + nameInput.Text + " - " + (filesexist + 1) + ".jpg");
                 files++;
             }
 
             // The retarded amount of effort involved in saving all of that info to a text file / adding it to the job tracker
 
-            string job = order.Text + " - " + name.Text;
+            string job = orderNumberInput.Text + " - " + nameInput.Text;
             List<string> jobs = new List<string>();
 
-            if (!checkedListBox1.Items.Contains(job))
+            if (!jobsCheckedListBox.Items.Contains(job))
             {
                 jobs.Add(job);
-                string[] info = { name.Text, phone.Text, order.Text, email.Text, address.Text, notes.Text };
-                File.WriteAllLines(savedir + order.Text + " - " + name.Text + "/" + "Order info for " + " " + name.Text + ".txt", info);
+                string[] info = { nameInput.Text, phoneNumberInput.Text, orderNumberInput.Text, emailButton.Text, addressInput.Text, notesInput.Text };
+                File.WriteAllLines(savedir + orderNumberInput.Text + " - " + nameInput.Text + "/" + "Order info for " + " " + nameInput.Text + ".txt", info);
                 jobs.ToArray();
-                checkedListBox1.Items.Add(job);
+                jobsCheckedListBox.Items.Add(job);
                 File.AppendAllLines("jobs.txt", jobs);
             }else{
                 jobs.Add(job);
-                string[] info = { name.Text, phone.Text, order.Text, email.Text, address.Text, notes.Text };
-                File.WriteAllLines(savedir + order.Text + " - " + name.Text + "/" + "Order info for " + " " + name.Text + ".txt", info);
+                string[] info = { nameInput.Text, phoneNumberInput.Text, orderNumberInput.Text, emailButton.Text, addressInput.Text, notesInput.Text };
+                File.WriteAllLines(savedir + orderNumberInput.Text + " - " + nameInput.Text + "/" + "Order info for " + " " + nameInput.Text + ".txt", info);
             }
             // Copying finished, show confirmation, and reset all parameters to get ready for the next job
 
             MessageBox.Show("Done!");
-            openFileDialog1.Reset();
-            openFileDialog1.Multiselect = true;
-            browse.Text = "browse";
-            name.Text = "name";
-            address.Text = "address";
-            email.Text = "email";
-            phone.Text = "phone";
-            notes.Text = "notes";
+            addFilesOpenFileDialog.Reset();
+            addFilesOpenFileDialog.Multiselect = true;
+            browseButton.Text = "browse";
+            nameInput.Text = "name";
+            addressInput.Text = "address";
+            emailButton.Text = "email";
+            phoneNumberInput.Text = "phone";
+            notesInput.Text = "notes";
 
-            if (Regex.IsMatch(order.Text, @"^\d+$"))
+            if (Regex.IsMatch(orderNumberInput.Text, @"^\d+$"))
             {
 
-                int orderNum = int.Parse(order.Text);
+                int orderNum = int.Parse(orderNumberInput.Text);
                 orderNum++;
-                order.Text = orderNum.ToString();
+                orderNumberInput.Text = orderNum.ToString();
             }
-            else { order.Text = "order number"; }
+            else { orderNumberInput.Text = "order number"; }
         }
 
         // Apply theme settings when you click the logo. Because I was too dumb to figure out a real way.
@@ -185,14 +185,14 @@ namespace PhotoOrg
                 if (File.Exists(themepath))
                 {
                     string[] settings = File.ReadAllLines(themepath);
-                    logo.Text = settingsFile[1];
+                    formTitleLabel.Text = settingsFile[1];
 
                     Color logoCol = Color.FromArgb(Convert.ToInt32(settings[2]), Convert.ToInt32(settings[3]), Convert.ToInt32(settings[4]));
                     Color bgCol = Color.FromArgb(Convert.ToInt32(settings[6]), Convert.ToInt32(settings[7]), Convert.ToInt32(settings[8]));
                     Color boxTextCol = Color.FromArgb(Convert.ToInt32(settings[10]), Convert.ToInt32(settings[11]), Convert.ToInt32(settings[12]));
                     Color boxCol = Color.FromArgb(Convert.ToInt32(settings[14]), Convert.ToInt32(settings[15]), Convert.ToInt32(settings[16]));
 
-                    logo.ForeColor = logoCol;
+                    formTitleLabel.ForeColor = logoCol;
 
                     this.BackColor = bgCol;
 
@@ -205,29 +205,29 @@ namespace PhotoOrg
                         this.BackgroundImage = null;
                     }
 
-                    name.ForeColor = boxTextCol;
-                    phone.ForeColor = boxTextCol;
-                    order.ForeColor = boxTextCol;
-                    address.ForeColor = boxTextCol;
-                    email.ForeColor = boxTextCol;
-                    browse.ForeColor = boxTextCol;
-                    mail.ForeColor = boxTextCol;
-                    save.ForeColor = boxTextCol;
-                    notes.ForeColor = boxTextCol;
-                    AddFiles.ForeColor = boxTextCol;
-                    checkedListBox1.ForeColor = boxTextCol;
+                    nameInput.ForeColor = boxTextCol;
+                    phoneNumberInput.ForeColor = boxTextCol;
+                    orderNumberInput.ForeColor = boxTextCol;
+                    addressInput.ForeColor = boxTextCol;
+                    emailButton.ForeColor = boxTextCol;
+                    browseButton.ForeColor = boxTextCol;
+                    jobsToggleCheckbox.ForeColor = boxTextCol;
+                    saveButton.ForeColor = boxTextCol;
+                    notesInput.ForeColor = boxTextCol;
+                    openJobFolderButton.ForeColor = boxTextCol;
+                    jobsCheckedListBox.ForeColor = boxTextCol;
 
-                    name.BackColor = boxCol;
-                    notes.BackColor = boxCol;
-                    phone.BackColor = boxCol;
-                    order.BackColor = boxCol;
-                    address.BackColor = boxCol;
-                    email.BackColor = boxCol;
-                    browse.BackColor = boxCol;
-                    mail.BackColor = boxCol;
-                    save.BackColor = boxCol;
-                    AddFiles.BackColor = boxCol;
-                    checkedListBox1.BackColor = boxCol;
+                    nameInput.BackColor = boxCol;
+                    notesInput.BackColor = boxCol;
+                    phoneNumberInput.BackColor = boxCol;
+                    orderNumberInput.BackColor = boxCol;
+                    addressInput.BackColor = boxCol;
+                    emailButton.BackColor = boxCol;
+                    browseButton.BackColor = boxCol;
+                    jobsToggleCheckbox.BackColor = boxCol;
+                    saveButton.BackColor = boxCol;
+                    openJobFolderButton.BackColor = boxCol;
+                    jobsCheckedListBox.BackColor = boxCol;
                 }
             }
         }
@@ -236,19 +236,21 @@ namespace PhotoOrg
 
         private void browse_Click(object sender, EventArgs e)
         {
-            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (addFilesOpenFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 int files = 0;
-                foreach (string file in openFileDialog1.FileNames) { files++; }
-                if (files == 1) { browse.Text = files + " file loaded!"; }
-                else { browse.Text = files + " files loaded!"; }
-                save.Enabled = true;
+                foreach (string file in addFilesOpenFileDialog.FileNames) { files++; }
+                if (files == 1) { browseButton.Text = files + " file loaded!"; }
+                else { browseButton.Text = files + " files loaded!"; }
+                saveButton.Enabled = true;
             }
         }
 
         // I'll make my own exit button, with blackjack, and overused jokes
 
-        private void exit_Click(object sender, EventArgs e) { System.Windows.Forms.Application.Exit(); }
+        private void exit_Click(object sender, EventArgs e) {
+            Application.Exit();
+        }
 
         // Gay Code Jail
 
@@ -261,7 +263,11 @@ namespace PhotoOrg
 
         private void mail_CheckedChanged(object sender, EventArgs e)
         {
-            if (mail.Checked) { PhotoOrg.ActiveForm.Width = 1377; } else { PhotoOrg.ActiveForm.Width = 472; }
+            if (jobsToggleCheckbox.Checked) {
+                ActiveForm.Width = 1377;
+            } else {
+                ActiveForm.Width = 472;
+            }
 
         }
 
@@ -269,13 +275,12 @@ namespace PhotoOrg
 
         private void textBox1_TextChanged(object sender, EventArgs e) { }
         private void textBox2_TextChanged(object sender, EventArgs e) { }
-        private void openFileDialog1_FileOk(object sender, EventArgs e) { }
 
         private void settingsOpen_Click(object sender, EventArgs e)
         {
             if (File.Exists("settings/settings.cfg"))
             {
-                settings settings = new settings();
+                SettingsForm settings = new SettingsForm();
                 settings.Show();
             }
             else
@@ -284,9 +289,9 @@ namespace PhotoOrg
             }
         }
 
-        private void close_Click(object sender, EventArgs e)
+        private void closeButton_Click(object sender, EventArgs e)
         {
-            System.Windows.Forms.Application.Exit();
+            Application.Exit();
         }
 
         private void PhotoOrg_Load(object sender, EventArgs e)
@@ -336,7 +341,7 @@ namespace PhotoOrg
                         pic.Dispose();
                     }
 
-                    flowLayoutPanel1.Controls.Clear();
+                    imagePreviewPanel.Controls.Clear();
                     PictureBoxes = new List<PictureBox>();
 
                     List<string> filenames = new List<string>();
@@ -384,21 +389,21 @@ namespace PhotoOrg
                         pic.Tag = file_info;
 
                         
-                        pic.Parent = flowLayoutPanel1;
+                        pic.Parent = imagePreviewPanel;
                     }
 
                     // Repopulate the text boxes with saved info
 
-                    openFileDialog1.Reset();
-                    openFileDialog1.Multiselect = true;
-                    name.Text = info[0];
-                    address.Text = info[4];
-                    notes.Text = info[5];
-                    email.Text = info[3];
-                    order.Text = info[2];
-                    phone.Text = info[1];
-                    filesprev.Text = "files: " + filesexist;
-                    save.Enabled = true;
+                    addFilesOpenFileDialog.Reset();
+                    addFilesOpenFileDialog.Multiselect = true;
+                    nameInput.Text = info[0];
+                    addressInput.Text = info[4];
+                    notesInput.Text = info[5];
+                    emailButton.Text = info[3];
+                    orderNumberInput.Text = info[2];
+                    phoneNumberInput.Text = info[1];
+                    fileCountLabel.Text = "files: " + filesexist;
+                    saveButton.Enabled = true;
                 }
                 else {
                     MessageBox.Show(cwinfo + Fname);
@@ -408,7 +413,7 @@ namespace PhotoOrg
 
         // Open up the folder for the job you have clicked
 
-        private void AddFiles_Click(object sender, EventArgs e)
+        private void OpenJobFolderButton_Click(object sender, EventArgs e)
         {
             string savedir = "";
 
@@ -426,7 +431,7 @@ namespace PhotoOrg
             }
             else
             {
-                string Select = checkedListBox1.SelectedItem.ToString();
+                string Select = jobsCheckedListBox.SelectedItem.ToString();
                 string cwd = Directory.GetCurrentDirectory() + @"\" + Select;
                 Process.Start("explorer.exe", cwd);
             }
@@ -444,7 +449,7 @@ namespace PhotoOrg
             DialogResult delmes = MessageBox.Show("Are you sure you would like to remove entry? Photos will remain","Delete Job",MessageBoxButtons.YesNo);
             if (delmes == DialogResult.Yes)
             {
-                string killme = checkedListBox1.SelectedItem.ToString();
+                string killme = jobsCheckedListBox.SelectedItem.ToString();
 
                 string[] Lines = File.ReadAllLines("jobs.txt");
                 File.Delete("jobs.txt");// Deleting the file
@@ -464,13 +469,13 @@ namespace PhotoOrg
                     }
                 }
 
-                if (checkedListBox1.SelectedIndex > 0)
-                    checkedListBox1.SelectedIndex = checkedListBox1.SelectedIndex - 1;
+                if (jobsCheckedListBox.SelectedIndex > 0)
+                    jobsCheckedListBox.SelectedIndex = jobsCheckedListBox.SelectedIndex - 1;
                 
-                if (checkedListBox1.SelectedIndex < checkedListBox1.SelectedIndex - 0)
-                    checkedListBox1.SelectedIndex = checkedListBox1.SelectedIndex + 1;
+                if (jobsCheckedListBox.SelectedIndex < jobsCheckedListBox.SelectedIndex - 0)
+                    jobsCheckedListBox.SelectedIndex = jobsCheckedListBox.SelectedIndex + 1;
 
-                checkedListBox1.Items.Remove(killme);
+                jobsCheckedListBox.Items.Remove(killme);
             }
         }
 
@@ -492,6 +497,11 @@ namespace PhotoOrg
 
             // "Start" the file.
             Process.Start(file_into.FullName);
+        }
+
+        private void openFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
         }
     }
 }

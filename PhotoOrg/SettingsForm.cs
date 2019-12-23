@@ -11,9 +11,9 @@ using System.Windows.Forms;
 
 namespace PhotoOrg
 {
-    public partial class settings : Form
+    public partial class SettingsForm : Form
     {
-        public settings()
+        public SettingsForm()
         {
             InitializeComponent();
 
@@ -29,14 +29,14 @@ namespace PhotoOrg
                {
                    string tidy = themes[count].Replace(@"settings\","");
                    string tidier = tidy.Replace(".ini", "");
-                   themepicker.Items.Add(tidier);
+                   themeInput.Items.Add(tidier);
                    count++;
                };
 
                 string[] Settings = File.ReadAllLines(@"settings/settings.cfg");
-                bannerset.Text = Settings[1];
-                themepicker.Text = Settings[3];
-                browseDir.Text = Settings[5];
+                bannerInput.Text = Settings[1];
+                themeInput.Text = Settings[3];
+                alternateButton.Text = Settings[5];
             }
 
             
@@ -80,8 +80,8 @@ namespace PhotoOrg
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string theme = themepicker.Text;
-            string banner = bannerset.Text;
+            string theme = themeInput.Text;
+            string banner = bannerInput.Text;
 
 
             if (banner != "banner")
@@ -104,16 +104,16 @@ namespace PhotoOrg
             }
 
 
-            if (browseDir.Text != "alternate save directory")
+            if (alternateButton.Text != "alternate save directory")
             {
-                lineChanger(browseDir.Text, @"settings/settings.cfg", 6);
+                lineChanger(alternateButton.Text, @"settings/settings.cfg", 6);
             }
             else
             {
                 lineChanger("default", @"settings/settings.cfg", 6);
             }
 
-            if (browseDir.Text == "")
+            if (alternateButton.Text == "")
             {
                 lineChanger("default", @"settings/settings.cfg", 6);
             }
@@ -135,9 +135,9 @@ namespace PhotoOrg
 
         private void browseDir_Click(object sender, EventArgs e)
         {
-            folderBrowserDialog1.ShowDialog();
-            string SaveDir = folderBrowserDialog1.SelectedPath;
-            browseDir.Text = SaveDir;
+            settingsFolderBrowserDialogue.ShowDialog();
+            string SaveDir = settingsFolderBrowserDialogue.SelectedPath;
+            alternateButton.Text = SaveDir;
         }
     }
 }
