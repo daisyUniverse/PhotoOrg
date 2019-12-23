@@ -13,7 +13,7 @@ namespace PhotoOrg
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new PhotoOrg());
+            Application.Run(new MainForm());
         }
 
     }
