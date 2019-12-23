@@ -33,7 +33,7 @@
             this.bannerInput = new System.Windows.Forms.TextBox();
             this.saveButton = new System.Windows.Forms.Button();
             this.themeInput = new System.Windows.Forms.ComboBox();
-            this.alternateButton = new System.Windows.Forms.Button();
+            this.alternateDirButton = new System.Windows.Forms.Button();
             this.settingsFormTitle = new System.Windows.Forms.Label();
             this.settingsFolderBrowserDialogue = new System.Windows.Forms.FolderBrowserDialog();
             this.bannerLabel = new System.Windows.Forms.Label();
@@ -52,7 +52,7 @@
             this.exitButton.Size = new System.Drawing.Size(25, 25);
             this.exitButton.TabIndex = 0;
             this.exitButton.UseVisualStyleBackColor = false;
-            this.exitButton.Click += new System.EventHandler(this.exitsettings_Click);
+            this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
             // 
             // bannerInput
             // 
@@ -66,7 +66,6 @@
             this.bannerInput.Size = new System.Drawing.Size(184, 41);
             this.bannerInput.TabIndex = 1;
             this.bannerInput.Text = "banner";
-            this.bannerInput.TextChanged += new System.EventHandler(this.bannerset_TextChanged);
             // 
             // saveButton
             // 
@@ -79,7 +78,7 @@
             this.saveButton.TabIndex = 2;
             this.saveButton.Text = "save";
             this.saveButton.UseVisualStyleBackColor = false;
-            this.saveButton.Click += new System.EventHandler(this.button1_Click);
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // themeInput
             // 
@@ -94,19 +93,19 @@
             this.themeInput.TabIndex = 3;
             this.themeInput.Text = "theme";
             // 
-            // alternateButton
+            // alternateDirButton
             // 
-            this.alternateButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(44)))), ((int)(((byte)(49)))));
-            this.alternateButton.Font = new System.Drawing.Font("Arial", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.alternateButton.ForeColor = System.Drawing.Color.Silver;
-            this.alternateButton.Location = new System.Drawing.Point(253, 293);
-            this.alternateButton.Name = "alternateButton";
-            this.alternateButton.Size = new System.Drawing.Size(180, 42);
-            this.alternateButton.TabIndex = 2;
-            this.alternateButton.Text = "alternate save directory";
-            this.alternateButton.TextAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.alternateButton.UseVisualStyleBackColor = false;
-            this.alternateButton.Click += new System.EventHandler(this.browseDir_Click);
+            this.alternateDirButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(44)))), ((int)(((byte)(49)))));
+            this.alternateDirButton.Font = new System.Drawing.Font("Arial", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.alternateDirButton.ForeColor = System.Drawing.Color.Silver;
+            this.alternateDirButton.Location = new System.Drawing.Point(253, 293);
+            this.alternateDirButton.Name = "alternateDirButton";
+            this.alternateDirButton.Size = new System.Drawing.Size(180, 42);
+            this.alternateDirButton.TabIndex = 2;
+            this.alternateDirButton.Text = "alternate save directory";
+            this.alternateDirButton.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.alternateDirButton.UseVisualStyleBackColor = false;
+            this.alternateDirButton.Click += new System.EventHandler(this.alternateDirButton_Click);
             // 
             // settingsFormTitle
             // 
@@ -117,10 +116,6 @@
             this.settingsFormTitle.Size = new System.Drawing.Size(262, 59);
             this.settingsFormTitle.TabIndex = 4;
             this.settingsFormTitle.Text = "Settings";
-            // 
-            // settingsFolderBrowserDialogue
-            // 
-            this.settingsFolderBrowserDialogue.HelpRequest += new System.EventHandler(this.folderBrowserDialog1_HelpRequest);
             // 
             // bannerLabel
             // 
@@ -158,7 +153,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(57)))), ((int)(((byte)(63)))));
             this.ClientSize = new System.Drawing.Size(523, 472);
-            this.Controls.Add(this.alternateButton);
+            this.Controls.Add(this.alternateDirButton);
             this.Controls.Add(this.bannerInput);
             this.Controls.Add(this.themeInput);
             this.Controls.Add(this.saveToLabel);
@@ -172,7 +167,6 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SettingsForm";
             this.Text = "Form2";
-            this.Load += new System.EventHandler(this.settings_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -184,7 +178,7 @@
         private System.Windows.Forms.TextBox bannerInput;
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.ComboBox themeInput;
-        private System.Windows.Forms.Button alternateButton;
+        private System.Windows.Forms.Button alternateDirButton;
         private System.Windows.Forms.Label settingsFormTitle;
         private System.Windows.Forms.FolderBrowserDialog settingsFolderBrowserDialogue;
         private System.Windows.Forms.Label bannerLabel;

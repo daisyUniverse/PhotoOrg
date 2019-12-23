@@ -36,15 +36,10 @@ namespace PhotoOrg
                 string[] Settings = File.ReadAllLines(@"settings/settings.cfg");
                 bannerInput.Text = Settings[1];
                 themeInput.Text = Settings[3];
-                alternateButton.Text = Settings[5];
+                alternateDirButton.Text = Settings[5];
             }
 
             
-        }
-
-        private void settings_Load(object sender, EventArgs e)
-        {
-
         }
 
         // Stuff for replacing settings lines in the settings.cfg
@@ -71,14 +66,14 @@ namespace PhotoOrg
 
         // Come on. You can figure this out.
 
-        private void exitsettings_Click(object sender, EventArgs e)
+        private void exitButton_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         // Saving and exiting. Not perfect.
 
-        private void button1_Click(object sender, EventArgs e)
+        private void saveButton_Click(object sender, EventArgs e)
         {
             string theme = themeInput.Text;
             string banner = bannerInput.Text;
@@ -104,16 +99,16 @@ namespace PhotoOrg
             }
 
 
-            if (alternateButton.Text != "alternate save directory")
+            if (alternateDirButton.Text != "alternate save directory")
             {
-                lineChanger(alternateButton.Text, @"settings/settings.cfg", 6);
+                lineChanger(alternateDirButton.Text, @"settings/settings.cfg", 6);
             }
             else
             {
                 lineChanger("default", @"settings/settings.cfg", 6);
             }
 
-            if (alternateButton.Text == "")
+            if (alternateDirButton.Text == "")
             {
                 lineChanger("default", @"settings/settings.cfg", 6);
             }
@@ -121,23 +116,13 @@ namespace PhotoOrg
             this.Close();
         }
 
-        private void bannerset_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
-        {
-
-        }
-
         // Getting the Alternate Save directory
 
-        private void browseDir_Click(object sender, EventArgs e)
+        private void alternateDirButton_Click(object sender, EventArgs e)
         {
             settingsFolderBrowserDialogue.ShowDialog();
             string SaveDir = settingsFolderBrowserDialogue.SelectedPath;
-            alternateButton.Text = SaveDir;
+            alternateDirButton.Text = SaveDir;
         }
     }
 }
