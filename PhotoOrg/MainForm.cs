@@ -20,7 +20,7 @@ namespace PhotoOrg
 
             // Check for the jobs file, if it's there, add all the recorded jobs to the tracker.
 
-            int count = 0;
+            var count = 0;
             if (File.Exists("jobs.txt"))
             {
                 string[] log = File.ReadAllLines("jobs.txt");
@@ -34,58 +34,57 @@ namespace PhotoOrg
             // Themes. Because that's what this needed. This checks for a settings file, and checks what the current theme set is,
             // and reads the specified filename for color data. I spent an hour on this. Why.
 
-            if (File.Exists("settings/settings.cfg"))
+            if (!File.Exists("settings/settings.cfg"))
+                return;
+
+            var settingsFile = File.ReadAllLines("settings/settings.cfg");
+            var theme = settingsFile[3];
+            var themepath = "settings/" + theme + ".ini";
+
+            if (File.Exists(themepath))
             {
+                string[] settings = File.ReadAllLines(themepath);
+                formTitleLabel.Text = settingsFile[1];
 
-                string[] settingsFile = File.ReadAllLines("settings/settings.cfg");
-                string theme = settingsFile[3];
-                string themepath = "settings/" + theme + ".ini";
+                Color logoCol = Color.FromArgb(Convert.ToInt32(settings[2]), Convert.ToInt32(settings[3]), Convert.ToInt32(settings[4]));
+                Color bgCol = Color.FromArgb(Convert.ToInt32(settings[6]), Convert.ToInt32(settings[7]), Convert.ToInt32(settings[8]));
+                Color boxTextCol = Color.FromArgb(Convert.ToInt32(settings[10]), Convert.ToInt32(settings[11]), Convert.ToInt32(settings[12]));
+                Color boxCol = Color.FromArgb(Convert.ToInt32(settings[14]), Convert.ToInt32(settings[15]), Convert.ToInt32(settings[16]));
 
-                if (File.Exists(themepath))
+                formTitleLabel.ForeColor = logoCol;
+
+                BackColor = bgCol;
+
+                if (settings[18] != "none")
                 {
-                    string[] settings = File.ReadAllLines(themepath);
-                    formTitleLabel.Text = settingsFile[1];
-
-                    Color logoCol = Color.FromArgb(Convert.ToInt32(settings[2]), Convert.ToInt32(settings[3]), Convert.ToInt32(settings[4]));
-                    Color bgCol = Color.FromArgb(Convert.ToInt32(settings[6]), Convert.ToInt32(settings[7]), Convert.ToInt32(settings[8]));
-                    Color boxTextCol = Color.FromArgb(Convert.ToInt32(settings[10]), Convert.ToInt32(settings[11]), Convert.ToInt32(settings[12]));
-                    Color boxCol = Color.FromArgb(Convert.ToInt32(settings[14]), Convert.ToInt32(settings[15]), Convert.ToInt32(settings[16]));
-
-                    formTitleLabel.ForeColor = logoCol;
-
-                    this.BackColor = bgCol;
-
-                    if (settings[18] != "none")
-                    {
-                        Image BG = new Bitmap(@"settings/img/" + settings[18] + ".jpg");
-                        this.BackgroundImage = BG;
-                    }
-
-                    nameInput.ForeColor = boxTextCol;
-                    phoneNumberInput.ForeColor = boxTextCol;
-                    orderNumberInput.ForeColor = boxTextCol;
-                    addressInput.ForeColor = boxTextCol;
-                    emailButton.ForeColor = boxTextCol;
-                    browseButton.ForeColor = boxTextCol;
-                    jobsToggleCheckbox.ForeColor = boxTextCol;
-                    saveButton.ForeColor = boxTextCol;
-                    notesInput.ForeColor = boxTextCol;
-                    openJobFolderButton.ForeColor = boxTextCol;
-                    jobsCheckedListBox.ForeColor = boxTextCol;
-
-                    nameInput.BackColor = boxCol;
-                    notesInput.BackColor = boxCol;
-                    openJobFolderButton.BackColor = boxCol;
-                    phoneNumberInput.BackColor = boxCol;
-                    orderNumberInput.BackColor = boxCol;
-                    addressInput.BackColor = boxCol;
-                    emailButton.BackColor = boxCol;
-                    browseButton.BackColor = boxCol;
-                    jobsToggleCheckbox.BackColor = boxCol;
-                    saveButton.BackColor = boxCol;
-                    jobsCheckedListBox.BackColor = boxCol;
-                    
+                    Image BG = new Bitmap(@"settings/img/" + settings[18] + ".jpg");
+                    BackgroundImage = BG;
                 }
+
+                nameInput.ForeColor = boxTextCol;
+                phoneNumberInput.ForeColor = boxTextCol;
+                orderNumberInput.ForeColor = boxTextCol;
+                addressInput.ForeColor = boxTextCol;
+                emailButton.ForeColor = boxTextCol;
+                browseButton.ForeColor = boxTextCol;
+                jobsToggleCheckbox.ForeColor = boxTextCol;
+                saveButton.ForeColor = boxTextCol;
+                notesInput.ForeColor = boxTextCol;
+                openJobFolderButton.ForeColor = boxTextCol;
+                jobsCheckedListBox.ForeColor = boxTextCol;
+
+                nameInput.BackColor = boxCol;
+                notesInput.BackColor = boxCol;
+                openJobFolderButton.BackColor = boxCol;
+                phoneNumberInput.BackColor = boxCol;
+                orderNumberInput.BackColor = boxCol;
+                addressInput.BackColor = boxCol;
+                emailButton.BackColor = boxCol;
+                browseButton.BackColor = boxCol;
+                jobsToggleCheckbox.BackColor = boxCol;
+                saveButton.BackColor = boxCol;
+                jobsCheckedListBox.BackColor = boxCol;
+                
             }
         }
 
@@ -106,8 +105,8 @@ namespace PhotoOrg
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            int files = 0;
-            string savedir = "";
+            var files = 0;
+            var savedir = "";
 
             // Looking to see if an alternate save directory was chosen
 
@@ -124,7 +123,7 @@ namespace PhotoOrg
             {
                 if (!Directory.Exists(savedir + orderNumberInput.Text + " - " + nameInput.Text))
                     Directory.CreateDirectory(savedir + orderNumberInput.Text + " - " + nameInput.Text);
-                    int filesexist = Directory.GetFiles(savedir + orderNumberInput.Text + " - " + nameInput.Text).Length;
+                var filesexist = Directory.GetFiles(savedir + orderNumberInput.Text + " - " + nameInput.Text).Length;
 
                 if (!File.Exists(savedir + orderNumberInput.Text + " - " + nameInput.Text + "/" + orderNumberInput.Text + " - " + nameInput.Text + " - " + (filesexist + 1) + ".jpg"))
                     File.Copy(addFilesOpenFileDialog.FileNames[files], savedir + orderNumberInput.Text + " - " + nameInput.Text + "/" + nameInput.Text + " - " + (filesexist + 1) + ".jpg");
@@ -133,8 +132,8 @@ namespace PhotoOrg
 
             // The retarded amount of effort involved in saving all of that info to a text file / adding it to the job tracker
 
-            string job = orderNumberInput.Text + " - " + nameInput.Text;
-            List<string> jobs = new List<string>();
+            var job = orderNumberInput.Text + " - " + nameInput.Text;
+            var jobs = new List<string>();
 
             if (!jobsCheckedListBox.Items.Contains(job))
             {
@@ -164,7 +163,7 @@ namespace PhotoOrg
             if (Regex.IsMatch(orderNumberInput.Text, @"^\d+$"))
             {
 
-                int orderNum = int.Parse(orderNumberInput.Text);
+                var orderNum = int.Parse(orderNumberInput.Text);
                 orderNum++;
                 orderNumberInput.Text = orderNum.ToString();
             }
@@ -178,13 +177,13 @@ namespace PhotoOrg
             if (File.Exists("settings/settings.cfg"))
             {
 
-                string[] settingsFile = File.ReadAllLines("settings/settings.cfg");
-                string theme = settingsFile[3];
-                string themepath = "settings/" + theme + ".ini";
+                var settingsFile = File.ReadAllLines("settings/settings.cfg");
+                var theme = settingsFile[3];
+                var themepath = "settings/" + theme + ".ini";
 
                 if (File.Exists(themepath))
                 {
-                    string[] settings = File.ReadAllLines(themepath);
+                    var settings = File.ReadAllLines(themepath);
                     formTitleLabel.Text = settingsFile[1];
 
                     Color logoCol = Color.FromArgb(Convert.ToInt32(settings[2]), Convert.ToInt32(settings[3]), Convert.ToInt32(settings[4]));
@@ -198,11 +197,11 @@ namespace PhotoOrg
 
                     if (settings[18] != "none")
                     {
-                        Image BG = new Bitmap(@"settings/img/" + settings[18] + ".jpg");
-                        this.BackgroundImage = BG;
+                        var BG = new Bitmap(@"settings/img/" + settings[18] + ".jpg");
+                        BackgroundImage = BG;
                     }
                     else {
-                        this.BackgroundImage = null;
+                        BackgroundImage = null;
                     }
 
                     nameInput.ForeColor = boxTextCol;
@@ -236,12 +235,18 @@ namespace PhotoOrg
 
         private void browse_Click(object sender, EventArgs e)
         {
-            if (addFilesOpenFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (addFilesOpenFileDialog.ShowDialog() == DialogResult.OK)
             {
-                int files = 0;
-                foreach (string file in addFilesOpenFileDialog.FileNames) { files++; }
-                if (files == 1) { browseButton.Text = files + " file loaded!"; }
-                else { browseButton.Text = files + " files loaded!"; }
+                var files = addFilesOpenFileDialog.FileNames.Length;
+                
+                if (files == 1)
+                {
+                    browseButton.Text = files + " file loaded!";
+                }
+                else
+                {
+                    browseButton.Text = files + " files loaded!";
+                }
                 saveButton.Enabled = true;
             }
         }
@@ -297,24 +302,24 @@ namespace PhotoOrg
 
             if (File.Exists("settings/settings.cfg") && File.ReadAllLines("settings/settings.cfg")[5] != "default")
             {
-                string[] SettingsFile = File.ReadAllLines("settings/settings.cfg");
-                savedir = @SettingsFile[5];
+                var settingsFile = File.ReadAllLines("settings/settings.cfg");
+                savedir = settingsFile[5];
                 savedir = savedir + @"\";
-                string Select = (sender as CheckedListBox).SelectedItem.ToString();
-                string cwd = savedir + Select;
+                var select = (sender as CheckedListBox).SelectedItem.ToString();
+                var cwd = savedir + select;
                 MessageBox.Show(cwd);
                 Process.Start("explorer.exe", cwd);
             }
             else
             {   // Open previous job
-                string Select = (sender as CheckedListBox).SelectedItem.ToString();
-                string[] chop = Select.Split('-');
-                string dice = chop[chop.Length - 1];
-                string Fname = dice.Remove(0, 1);
+                var select = (sender as CheckedListBox).SelectedItem.ToString();
+                var chop = select.Split('-');
+                var dice = chop[chop.Length - 1];
+                var fileName = dice.Remove(0, 1);
 
-                string cwinfo = Directory.GetCurrentDirectory() + @"\" + Select + @"\Order info for  " + Fname + ".txt";
-                string cwd = Directory.GetCurrentDirectory() + @"\" + Select;
-                int filesexist = Directory.GetFiles(cwd).Length;
+                var cwinfo = Directory.GetCurrentDirectory() + @"\" + select + @"\Order info for  " + fileName + ".txt";
+                var cwd = Directory.GetCurrentDirectory() + @"\" + select;
+                var filesexist = Directory.GetFiles(cwd).Length;
                 if (File.Exists(cwinfo))
                 {
                     string[] info = File.ReadAllLines(cwinfo);
@@ -323,7 +328,7 @@ namespace PhotoOrg
 
                     foreach (PictureBox pic in PictureBoxes)
                     {
-                        pic.DoubleClick -= PictureBox_DoubleClick;
+                        pic.DoubleClick -= pictureBox_DoubleClick;
                         pic.Dispose();
                     }
 
@@ -332,15 +337,15 @@ namespace PhotoOrg
 
                     List<string> filenames = new List<string>();
                     string[] patterns = { "*.png", "*.gif", "*.jpg", "*.bmp", "*.tif" };
-                    foreach (string pattern in patterns)
+                    foreach (var pattern in patterns)
                     {
                         filenames.AddRange(Directory.GetFiles(cwd, pattern, SearchOption.TopDirectoryOnly));
                     }
                     filenames.Sort();
 
-                    foreach (string filename in filenames)
+                    foreach (var filename in filenames)
                     {
-                        PictureBox pic = new PictureBox();
+                        var pic = new PictureBox();
                         pic.ClientSize = new Size(ThumbWidth, ThumbHeight);
                         pic.Image = new Bitmap(filename);
 
@@ -372,8 +377,8 @@ namespace PhotoOrg
                                 pic.Image.RotateFlip(rot);
                         }
 
-                        pic.DoubleClick += PictureBox_DoubleClick;
-                        FileInfo file_info = new FileInfo(filename);
+                        pic.DoubleClick += pictureBox_DoubleClick;
+                        var file_info = new FileInfo(filename);
                         //tipPicture.SetToolTip(pic, file_info.Name + "/nCreated " + file_info.CreationTime.ToShortDateString() + "\n(" + pic.Image.Width + " x " + pic.Image.Height + ") " + ToFileSizeApi(file_info.Length));
                         pic.Tag = file_info;
 
@@ -396,7 +401,7 @@ namespace PhotoOrg
                 }
                 else
                 {
-                    MessageBox.Show(cwinfo + Fname);
+                    MessageBox.Show(cwinfo + fileName);
                 }
             }
         }
@@ -405,24 +410,24 @@ namespace PhotoOrg
 
         private void OpenJobFolderButton_Click(object sender, EventArgs e)
         {
-            string savedir = "";
+            var savedir = "";
 
             if (File.Exists("settings/settings.cfg") && File.ReadAllLines("settings/settings.cfg")[5] != "default")
             {
                 // Handle some custom save directory stuff for opening jobs
 
-                string[] SettingsFile = File.ReadAllLines("settings/settings.cfg");
-                savedir = @SettingsFile[5];
+                var settingsFile = File.ReadAllLines("settings/settings.cfg");
+                savedir = settingsFile[5];
                 savedir = savedir + @"\";
-                string Select = (sender as CheckedListBox).SelectedItem.ToString();
-                string cwd = savedir + Select;
+                var Select = (sender as CheckedListBox).SelectedItem.ToString();
+                var cwd = savedir + Select;
                 MessageBox.Show(cwd);
                 Process.Start("explorer.exe", cwd);
             }
             else
             {
-                string Select = jobsCheckedListBox.SelectedItem.ToString();
-                string cwd = Directory.GetCurrentDirectory() + @"\" + Select;
+                var select = jobsCheckedListBox.SelectedItem.ToString();
+                var cwd = Directory.GetCurrentDirectory() + @"\" + select;
                 Process.Start("explorer.exe", cwd);
             }
         }
@@ -443,11 +448,7 @@ namespace PhotoOrg
                 {
                     foreach (string line in Lines)
                     {
-                        if (line.IndexOf(killme) >= 0)
-                        {
-                            continue;
-                        }
-                        else
+                        if (line.IndexOf(killme) < 0)
                         {
                             sw.WriteLine(line);
                         }
@@ -464,7 +465,7 @@ namespace PhotoOrg
             }
         }
 
-        private void PictureBox_DoubleClick(object sender, EventArgs e)
+        private void pictureBox_DoubleClick(object sender, EventArgs e)
         {
             // Get the file's information.
             PictureBox pic = sender as PictureBox;

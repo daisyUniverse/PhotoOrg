@@ -17,36 +17,31 @@ namespace PhotoOrg
         {
             InitializeComponent();
 
-            int count = 0;
-
             // Parsing the settings folder for themes
 
-            if (Directory.Exists("settings"))
-            {
-               string[] themes = Directory.GetFiles("settings","*.ini");
-                
-               foreach (string settings in themes)
-               {
-                   string tidy = themes[count].Replace(@"settings\","");
-                   string tidier = tidy.Replace(".ini", "");
-                   themeInput.Items.Add(tidier);
-                   count++;
-               };
+            if (!Directory.Exists("settings"))
+                return;
 
-                string[] Settings = File.ReadAllLines(@"settings/settings.cfg");
-                bannerInput.Text = Settings[1];
-                themeInput.Text = Settings[3];
-                alternateDirButton.Text = Settings[5];
+            string[] themes = Directory.GetFiles("settings","*.ini");
+
+            for (var lineNumber = 0; lineNumber < themes.Length; lineNumber++)
+            {
+                var tidy = themes[lineNumber].Replace(@"settings\","");
+                var tidier = tidy.Replace(".ini", "");
+                themeInput.Items.Add(tidier);
             }
 
-            
+            string[] settings = File.ReadAllLines(@"settings/settings.cfg");
+            bannerInput.Text = settings[1];
+            themeInput.Text = settings[3];
+            alternateDirButton.Text = settings[5];
         }
 
         // Stuff for replacing settings lines in the settings.cfg
 
-        static void lineChanger(string newText, string fileName, int line_to_edit)
+        static void LineChanger(string newText, string fileName, int line_to_edit)
         {
-            string[] arrLine = File.ReadAllLines(fileName);
+            var arrLine = File.ReadAllLines(fileName);
             arrLine[line_to_edit - 1] = newText;
             File.WriteAllLines(fileName, arrLine);
         }
@@ -65,6 +60,7 @@ namespace PhotoOrg
         private const int HT_CAPTION = 0x2;
 
         // Come on. You can figure this out.
+        // You did it! <3
 
         private void exitButton_Click(object sender, EventArgs e)
         {
@@ -75,45 +71,45 @@ namespace PhotoOrg
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            string theme = themeInput.Text;
-            string banner = bannerInput.Text;
+            var theme = themeInput.Text;
+            var banner = bannerInput.Text;
 
 
             if (banner != "banner")
             {
-                lineChanger(banner, @"settings/settings.cfg", 2);
+                LineChanger(banner, @"settings/settings.cfg", 2);
             }
             else
             {
-                lineChanger("Elisha.Photo", @"settings/settings.cfg", 2);
+                LineChanger("Elisha.Photo", @"settings/settings.cfg", 2);
             }
 
 
             if (theme != "                      theme")
             {
-                lineChanger(theme, @"settings/settings.cfg", 4);
+                LineChanger(theme, @"settings/settings.cfg", 4);
             }
             else
             {
-                lineChanger("default", @"settings/settings.cfg", 4);
+                LineChanger("default", @"settings/settings.cfg", 4);
             }
 
 
             if (alternateDirButton.Text != "alternate save directory")
             {
-                lineChanger(alternateDirButton.Text, @"settings/settings.cfg", 6);
+                LineChanger(alternateDirButton.Text, @"settings/settings.cfg", 6);
             }
             else
             {
-                lineChanger("default", @"settings/settings.cfg", 6);
+                LineChanger("default", @"settings/settings.cfg", 6);
             }
 
             if (alternateDirButton.Text == "")
             {
-                lineChanger("default", @"settings/settings.cfg", 6);
+                LineChanger("default", @"settings/settings.cfg", 6);
             }
 
-            this.Close();
+            Close();
         }
 
         // Getting the Alternate Save directory
@@ -121,8 +117,8 @@ namespace PhotoOrg
         private void alternateDirButton_Click(object sender, EventArgs e)
         {
             settingsFolderBrowserDialogue.ShowDialog();
-            string SaveDir = settingsFolderBrowserDialogue.SelectedPath;
-            alternateDirButton.Text = SaveDir;
+            var saveDir = settingsFolderBrowserDialogue.SelectedPath;
+            alternateDirButton.Text = saveDir;
         }
     }
 }
