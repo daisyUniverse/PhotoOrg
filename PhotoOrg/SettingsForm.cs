@@ -81,7 +81,7 @@ namespace PhotoOrg
             }
             else
             {
-                LineChanger("Elisha.Photo", @"settings/settings.cfg", 2);
+                LineChanger("Robin.Photo", @"settings/settings.cfg", 2);
             }
 
 
