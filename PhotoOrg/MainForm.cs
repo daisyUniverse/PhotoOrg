@@ -130,7 +130,7 @@ namespace PhotoOrg
                 files++;
             }
 
-            // The retarded amount of effort involved in saving all of that info to a text file / adding it to the job tracker
+            // The dumb amount of effort involved in saving all of that info to a text file / adding it to the job tracker
 
             var job = orderNumberInput.Text + " - " + nameInput.Text;
             var jobs = new List<string>();
